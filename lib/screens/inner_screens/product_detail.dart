@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/constants/app_consntants.dart';
+import 'package:store_app/core/constants/app_consntants.dart';
 import 'package:store_app/models/cart_model.dart';
 import 'package:store_app/models/product_model.dart';
 import 'package:store_app/models/wishlist_model.dart';
@@ -131,8 +131,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             _detailsRow('Brand', _product.brand),
-                            _detailsRow(
-                                'Quatity', _product.quantity.toString()),
+                            _detailsRow('Quatity', _product.stock.toString()),
                             _detailsRow('Category', _product.category),
                             _detailsRow('Popularity',
                                 _product.isPopular ? 'Popular' : 'Not Popular'),
@@ -152,7 +151,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     _sectionContainer(
                       'Recommendations',
                       Container(
-                        height: MediaQuery.of(context).size.width * 0.45 + 60,
+                        height: MediaQuery.of(context).size.width * 0.7,
                         width: MediaQuery.of(context).size.width,
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,

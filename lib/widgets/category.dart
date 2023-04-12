@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/constants/route_name.dart';
+import 'package:store_app/core/constants/route_name.dart';
 import 'package:store_app/models/category_model.dart';
 
 class Category extends StatelessWidget {

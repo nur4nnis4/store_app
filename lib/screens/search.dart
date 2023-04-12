@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/constants/assets_path.dart';
+import 'package:store_app/core/constants/assets_path.dart';
 import 'package:store_app/models/product_model.dart';
 import 'package:store_app/providers/product_provider.dart';
 import 'package:store_app/widgets/feeds_product.dart';
@@ -66,7 +65,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 24,
-                                    color: Theme.of(context).buttonColor),
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary),
                               ),
                             )
                           : SvgPicture.asset(
@@ -115,7 +115,7 @@ class _SearchScreenState extends State<SearchScreen> {
           filled: true,
           isDense: true,
           hintText: 'Search',
-          hintStyle: TextStyle(color: Theme.of(context).buttonColor),
+          hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
           suffixIcon: _searchController.text.isEmpty
               ? null
               : IconButton(
@@ -126,7 +126,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           _focusNode.unfocus();
                         },
                   iconSize: 14,
-                  color: Theme.of(context).buttonColor,
+                  color: Theme.of(context).colorScheme.tertiary,
                   icon: Icon(Icons.clear),
                   padding: EdgeInsets.zero,
                   splashRadius: 14,

@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/constants/theme_data.dart';
+import 'package:store_app/core/constants/theme_data.dart';
 import 'package:store_app/firebase_options.dart';
 import 'package:store_app/models/theme_preferences.dart';
 import 'package:store_app/providers/theme_change_provider.dart';
@@ -12,7 +12,7 @@ import 'package:store_app/providers/user_data_provider.dart';
 import 'package:store_app/screens/bottom_bar.dart';
 import 'package:store_app/screens/upload_product.dart';
 
-import 'package:store_app/constants/route_name.dart';
+import 'package:store_app/core/constants/route_name.dart';
 import 'package:store_app/screens/inner_screens/category_screen.dart';
 import 'package:store_app/providers/cart_provider.dart';
 import 'package:store_app/providers/product_provider.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/constants/assets_path.dart';
-import 'package:store_app/constants/route_name.dart';
+import 'package:store_app/core/constants/assets_path.dart';
+import 'package:store_app/core/constants/route_name.dart';
 import 'package:store_app/models/user_model.dart';
 import 'package:store_app/providers/auth_provider.dart';
 import 'package:store_app/utils/ui/my_alert_dialog.dart';

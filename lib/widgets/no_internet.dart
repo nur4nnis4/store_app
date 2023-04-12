@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/constants/assets_path.dart';
+import 'package:store_app/core/constants/assets_path.dart';
 
 class NetworkError extends StatelessWidget {
   @override

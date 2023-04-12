@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:store_app/constants/app_consntants.dart';
-import 'package:store_app/constants/assets_path.dart';
-import 'package:store_app/constants/route_name.dart';
+import 'package:store_app/core/constants/app_consntants.dart';
+import 'package:store_app/core/constants/assets_path.dart';
+import 'package:store_app/core/constants/route_name.dart';
 import 'package:store_app/models/user_model.dart';
 import 'package:store_app/providers/theme_change_provider.dart';
 import 'package:provider/provider.dart';

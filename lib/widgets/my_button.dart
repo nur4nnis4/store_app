@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class MyButton {
   static Widget text({
@@ -38,7 +37,8 @@ class MyButton {
     return Container(
       height: height,
       decoration: BoxDecoration(
-        border: Border.all(color: Theme.of(context).buttonColor, width: 1),
+        border:
+            Border.all(color: Theme.of(context).colorScheme.tertiary, width: 1),
       ),
       child: InkWell(
           onTap: onPressed,
@@ -46,7 +46,7 @@ class MyButton {
             child: Text(
               text,
               style: TextStyle(
-                color: Theme.of(context).buttonColor,
+                color: Theme.of(context).colorScheme.tertiary,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.5,

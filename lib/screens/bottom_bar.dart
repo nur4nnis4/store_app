@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/constants/app_consntants.dart';
+import 'package:store_app/core/constants/app_consntants.dart';
 import 'package:store_app/screens/feeds.dart';
 import 'package:store_app/screens/home.dart';
 import 'package:store_app/screens/search.dart';
@@ -88,7 +88,10 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
         onPressed: () {
           _selectedPages(2);
         },
-        child: Icon(mSearchIcon),
+        child: Icon(
+          mSearchIcon,
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
         elevation: 2,
         splashColor: Theme.of(context).primaryColor.withAlpha(2),
       ),

@@ -137,13 +137,13 @@ class _ImagePickerDialog extends StatefulWidget {
 class _ImagePickerDialogState extends State<_ImagePickerDialog> {
   Future<void> _pickImageCamera() async {
     final pickedImage = await ImagePicker()
-        .getImage(source: ImageSource.camera, imageQuality: 10);
+        .pickImage(source: ImageSource.camera, imageQuality: 10);
     Navigator.pop(context, pickedImage!.path);
   }
 
   Future<void> _pickImageGallery() async {
     final pickedImage =
-        await ImagePicker().getImage(source: ImageSource.gallery);
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
     Navigator.pop(context, pickedImage!.path);
   }
@@ -167,18 +167,20 @@ class _ImagePickerDialogState extends State<_ImagePickerDialog> {
           children: [
             ListTile(
               onTap: _pickImageCamera,
-              leading: Icon(Icons.camera, color: Theme.of(context).buttonColor),
+              leading: Icon(Icons.camera,
+                  color: Theme.of(context).colorScheme.tertiary),
               title: Text('Camera'),
             ),
             ListTile(
               onTap: _pickImageGallery,
-              leading: Icon(Icons.photo, color: Theme.of(context).buttonColor),
+              leading: Icon(Icons.photo,
+                  color: Theme.of(context).colorScheme.tertiary),
               title: Text('Gallery'),
             ),
             ListTile(
               onTap: _removeImage,
               leading: Icon(Icons.remove_circle,
-                  color: Theme.of(context).buttonColor),
+                  color: Theme.of(context).colorScheme.tertiary),
               title: Text('Remove'),
             ),
           ],

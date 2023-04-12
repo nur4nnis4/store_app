@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:store_app/models/category_model.dart';
 import 'package:store_app/models/product_model.dart';
@@ -185,7 +184,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                           onEditingComplete: () => FocusScope.of(context)
                               .requestFocus(_categoryFocusNode),
                           onSaved: (value) =>
-                              _productModel.quantity = int.parse(value!),
+                              _productModel.stock = int.parse(value!),
                         ),
 
                         // Category section

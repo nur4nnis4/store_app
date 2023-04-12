@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/constants/app_consntants.dart';
+import 'package:store_app/core/constants/app_consntants.dart';
 import 'package:store_app/providers/auth_provider.dart';
 import 'package:store_app/utils/ui/my_border.dart';
 

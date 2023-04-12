@@ -1,7 +1,7 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/constants/route_name.dart';
+import 'package:store_app/core/constants/route_name.dart';
 import 'package:store_app/models/product_model.dart';
 import 'package:store_app/widgets/feeds_dialog.dart';
 import 'package:store_app/widgets/my_button.dart';
@@ -74,7 +74,7 @@ class FeedsProduct extends StatelessWidget {
                       MyButton.smallIcon(
                         context: context,
                         icon: Icons.more_vert,
-                        color: Theme.of(context).buttonColor,
+                        color: Theme.of(context).colorScheme.tertiary,
                         onPressed: () async {
                           showDialog(
                             context: context,

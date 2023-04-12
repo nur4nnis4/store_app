@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/constants/app_consntants.dart';
-import 'package:store_app/constants/route_name.dart';
+import 'package:store_app/core/constants/app_consntants.dart';
+import 'package:store_app/core/constants/route_name.dart';
 import 'package:store_app/models/cart_model.dart';
 import 'package:store_app/providers/cart_provider.dart';
 import 'package:store_app/utils/ui/my_alert_dialog.dart';

@@ -13,9 +13,6 @@ class MainScreen extends StatelessWidget {
     final _authProvider = Provider.of<AuthProvider>(context);
     _authProvider.signInAnonymously();
 
-    final _productsProvider = Provider.of<ProductProvider>(context);
-    _productsProvider.fetchProducts();
-
     return PageView(
       controller: controller,
       children: <Widget>[UploadProductScreen(), BottomBarScreen()],

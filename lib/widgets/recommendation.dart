@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/constants/route_name.dart';
+import 'package:store_app/core/constants/route_name.dart';
 import 'package:store_app/models/product_model.dart';
 
 class Recommendation extends StatefulWidget {
@@ -48,24 +48,17 @@ class _RecommendationState extends State<Recommendation> {
                       ),
                     ),
                     SizedBox(height: 5),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          '\$ ${_product.price}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 14),
-                        ),
-                        Text(
-                          'Sales ${_product.sales}',
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.caption,
-                        ),
-                      ],
+                    Text(
+                      '\$ ${_product.price}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor, fontSize: 14),
+                    ),
+                    Text(
+                      'Sales ${_product.sales}',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.caption,
                     ),
                   ],
                 ),

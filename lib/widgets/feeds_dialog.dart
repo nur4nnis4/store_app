@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/constants/app_consntants.dart';
+import 'package:store_app/core/constants/app_consntants.dart';
 import 'package:store_app/models/cart_model.dart';
 import 'package:store_app/models/wishlist_model.dart';
 import 'package:store_app/providers/cart_provider.dart';
