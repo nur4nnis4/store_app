@@ -1,3 +1,5 @@
+import 'package:store_app/core/constants/apiconfig.dart';
+
 class BrandModel {
   String name;
   String imageUrl;
@@ -7,35 +9,35 @@ class BrandModel {
   List<BrandModel> getBrands() => [
         BrandModel(
           name: 'CocaCola',
-          imageUrl: 'https://i.postimg.cc/bNx6KmYB/coca-cola.jpg',
+          imageUrl: '$storageUrl/brands/coca_cola.jpg',
         ),
         BrandModel(
           name: 'Cadbury',
-          imageUrl: 'https://i.postimg.cc/K8Q0Y4M7/cadbury.jpg',
+          imageUrl: '$storageUrl/brands/cadbury.jpg',
         ),
         BrandModel(
           name: 'Fanta',
-          imageUrl: 'https://i.postimg.cc/k54fR9Q0/fanta.jpg',
+          imageUrl: '$storageUrl/brands/fanta.jpg',
         ),
         BrandModel(
           name: 'Dasani',
-          imageUrl: 'https://i.postimg.cc/XYn239p7/dasani.jpg',
+          imageUrl: '$storageUrl/brands/dasani.jpg',
         ),
         BrandModel(
           name: 'Lipton',
-          imageUrl: 'https://i.postimg.cc/6qs0PvkK/lipton.jpg',
+          imageUrl: '$storageUrl/brands/lipton.jpg',
         ),
         BrandModel(
           name: 'Minute Maid',
-          imageUrl: 'https://i.postimg.cc/hjQsMr3M/minute-maid.jpg',
+          imageUrl: '$storageUrl/brands/minute_maid.jpg',
         ),
         BrandModel(
           name: 'Lays',
-          imageUrl: 'https://i.postimg.cc/fbr5xF5J/lays.jpg',
+          imageUrl: '$storageUrl/brands/lays.jpg',
         ),
         BrandModel(
           name: 'Oreo',
-          imageUrl: 'https://i.postimg.cc/0jpf1Nvw/oreo.jpg',
+          imageUrl: '$storageUrl/brands/oreo.jpg',
         ),
       ];
 }

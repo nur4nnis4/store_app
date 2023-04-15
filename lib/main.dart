@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,7 @@ import 'package:store_app/screens/feeds.dart';
 import 'package:store_app/screens/log_in.dart';
 import 'package:store_app/screens/sign_up.dart';
 import 'package:store_app/screens/wishlist.dart';
+import 'package:store_app/services/product_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +54,9 @@ class MyApp extends StatelessWidget {
                 providers: [
                   ChangeNotifierProvider(create: (_) => new AuthProvider()),
                   ChangeNotifierProvider(create: (_) => new UserDataProvider()),
-                  ChangeNotifierProvider(create: (_) => new ProductProvider()),
+                  ChangeNotifierProvider(
+                      create: (_) => new ProductProvider(
+                          productService: ProductService(dio: Dio()))),
                   ChangeNotifierProvider(create: (_) => new CartProvider()),
                   ChangeNotifierProvider(create: (_) => new WishlistProvider()),
                 ],

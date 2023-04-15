@@ -1,4 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 class ProductModel with ChangeNotifier {
   String id;
@@ -37,8 +40,24 @@ class ProductModel with ChangeNotifier {
         stock: json['stock'] as int,
         sales: json['sales'] as int,
         isPopular: json['is_popular'],
-        seller: SellerModel.fromJson(json['seller']),
+        seller: json['seller'] != null
+            ? SellerModel.fromJson(json['seller'])
+            : null,
       );
+  Future<Map<String, dynamic>> toJson() async => {
+        "id": Uuid().v4(),
+        "name": name,
+        "price": price,
+        "brand": brand,
+        "category": category,
+        "description": description,
+        "image_url": MultipartFile.fromBytes(
+            await XFile(imageUrl).readAsBytes(),
+            filename: 'image'),
+        "is_popular": isPopular ? 1 : 0,
+        "stock": stock,
+        "sales": sales,
+      };
 }
 
 class SellerModel {

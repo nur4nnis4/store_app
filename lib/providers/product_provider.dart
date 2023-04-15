@@ -1,10 +1,12 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:store_app/models/product_model.dart';
 import 'package:store_app/services/product_service.dart';
-import 'package:uuid/uuid.dart';
 
 class ProductProvider with ChangeNotifier {
+  final ProductService productService;
+
+  ProductProvider({required this.productService});
+
   List<ProductModel> _products = [];
   List<ProductModel> _popularProducts = [];
 
@@ -26,41 +28,18 @@ class ProductProvider with ChangeNotifier {
       .toList();
 
   Future<void> uploadProduct(ProductModel productModel) async {
-    productModel.id = Uuid().v4();
+    final product = await productService.createProduct(productModel);
 
-    // final user = FirebaseAuth.instance.currentUser;
+    _products.add(product);
 
-    // if (user != null) {
-    //   productModel.userId = user.uid;
-    //   productModel.id = Uuid().v4();
-    //   if (productModel.imageUrl.isNotEmpty) {
-    //     final ref = FirebaseStorage.instance
-    //         .ref()
-    //         .child('productimages')
-    //         .child(productModel.id + '.jpg');
-    //     await ref
-    //         .putFile(File(productModel.imageUrl))
-    //         .then((_) async => ref.getDownloadURL())
-    //         .then((imageUrl) => productModel.imageUrl = imageUrl)
-    //         .catchError((e) {
-    //       print(e.toString());
-    //     });
-    //   }
-    //   await FirebaseFirestore.instance
-    //       .collection('products')
-    //       .doc(productModel.id)
-    //       .set(productModel.toJson());
+    notifyListeners();
   }
 
   Future<void> fetchProductsProvider() async {
-    ProductService productService = new ProductService(dio: Dio());
-
     _products = await productService.fetchProducts();
   }
 
   Future<void> fetchPopularProductsProvider() async {
-    ProductService productService = new ProductService(dio: Dio());
-
     _popularProducts = await productService.fetchPopularProducts();
   }
 }

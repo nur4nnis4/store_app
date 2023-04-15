@@ -68,11 +68,13 @@ class HomeScreen extends StatelessWidget {
                     crossAxisCount: 2,
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     children: List.generate(
-                        popularBrands.length,
-                        (index) => Center(
-                                child: PopularBrand(
-                              brand: popularBrands[index],
-                            ))),
+                      popularBrands.length,
+                      (index) => Center(
+                        child: PopularBrand(
+                          brand: popularBrands[index],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
 
@@ -127,22 +129,20 @@ class HomeScreen extends StatelessWidget {
                           return Text('Error: ${snapshot.error}');
                         } else {
                           return Consumer<ProductProvider>(
-                            builder: (_, productProvider, __) =>
-                                GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 200,
-                                mainAxisExtent: 210,
-                                crossAxisSpacing: 5,
-                                mainAxisSpacing: 5,
-                              ),
-                              itemCount: productProvider.products.length,
+                            builder: (_, productProvider, __) => GridView.count(
+                              crossAxisCount: 2,
+                              childAspectRatio:
+                                  (MediaQuery.of(context).size.width) /
+                                      (MediaQuery.of(context).size.width + 130),
+                              mainAxisSpacing: 8,
                               shrinkWrap: true,
-                              itemBuilder: (_, index) =>
-                                  ChangeNotifierProvider.value(
-                                value: productProvider.products[index],
-                                child: Center(
-                                  child: Recommendation(),
+                              children: List.generate(
+                                productProvider.products.length,
+                                (index) => ChangeNotifierProvider.value(
+                                  value: productProvider.products[index],
+                                  child: Center(
+                                    child: Recommendation(),
+                                  ),
                                 ),
                               ),
                             ),

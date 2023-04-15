@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store_app/core/constants/app_consntants.dart';
@@ -38,15 +38,15 @@ class MyBadge {
 
   static Widget cart(BuildContext context) {
     return Consumer<CartProvider>(
-      builder: (_, cartProvider, __) => Badge(
+      builder: (_, cartProvider, __) => badges.Badge(
         badgeColor: Theme.of(context).primaryColor,
-        position: BadgePosition.topEnd(top: 5, end: 5),
-        animationType: BadgeAnimationType.slide,
+        position: badges.BadgePosition.topEnd(top: 5, end: 5),
+        animationType: badges.BadgeAnimationType.slide,
         badgeContent: Text(
           cartProvider.getCartItems.length.toString(),
           style: TextStyle(color: Colors.white),
         ),
-        shape: BadgeShape.circle,
+        shape: badges.BadgeShape.circle,
         showBadge: cartProvider.getCartItems.isEmpty ? false : true,
         child: IconButton(
             onPressed: () =>

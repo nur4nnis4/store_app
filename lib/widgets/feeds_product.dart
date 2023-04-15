@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store_app/core/constants/route_name.dart';
@@ -34,9 +34,9 @@ class FeedsProduct extends StatelessWidget {
                           onError: (object, stacktrace) => {},
                           fit: BoxFit.contain)),
                 ),
-                Badge(
+                badges.Badge(
                   toAnimate: false,
-                  shape: BadgeShape.square,
+                  shape: badges.BadgeShape.square,
                   badgeColor: Colors.deepPurple,
                   badgeContent:
                       Text('New', style: TextStyle(color: Colors.white)),
