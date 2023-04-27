@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store_app/core/constants/assets_path.dart';
 import 'package:store_app/core/constants/route_name.dart';
-import 'package:store_app/models/user_model.dart';
 import 'package:store_app/providers/auth_provider.dart';
 import 'package:store_app/utils/ui/my_alert_dialog.dart';
 import 'package:store_app/utils/ui/my_border.dart';
@@ -18,10 +17,11 @@ class _LogInScreenState extends State<LogInScreen> {
   late FocusNode _passwordNode;
   final _formKey = GlobalKey<FormState>();
   bool _passwordIsVisibile = false;
-  UserModel _user = new UserModel();
-  late String _password;
   bool _wrongEmailorPassword = false;
   bool _isLoading = false;
+
+  late TextEditingController _passwordController = TextEditingController();
+  late TextEditingController _emailController = TextEditingController();
 
   @override
   void initState() {
@@ -45,7 +45,11 @@ class _LogInScreenState extends State<LogInScreen> {
       _formKey.currentState!.save();
       setState(() => _isLoading = true);
 
-      authProvider.signIn(email: _user.email, password: _password).then((_) {
+      authProvider
+          .signIn(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim())
+          .then((_) {
         if (Navigator.canPop(context)) Navigator.pop(context);
       }).catchError((e) {
         print(e.toString());
@@ -117,6 +121,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         child: TextFormField(
+                          controller: _emailController,
                           key: ValueKey('Email'),
                           validator: (value) =>
                               value!.isEmpty || !value.contains('@')
@@ -135,7 +140,6 @@ class _LogInScreenState extends State<LogInScreen> {
                           ),
                           onEditingComplete: () => FocusScope.of(context)
                               .requestFocus(_passwordNode),
-                          onSaved: (value) => _user.email = value!,
                         ),
                       ),
 
@@ -143,6 +147,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 14.0),
                         child: TextFormField(
+                          controller: _passwordController,
                           key: ValueKey('Password'),
                           validator: (value) => value!.isEmpty
                               ? 'Please enter a valid password'
@@ -176,7 +181,6 @@ class _LogInScreenState extends State<LogInScreen> {
                               ),
                             ),
                           ),
-                          onSaved: (value) => _password = value!,
                         ),
                       ),
 
@@ -231,7 +235,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   ),
                 ),
 
-                // Buttom Log In with Google
+                // Button Log In with Google
                 _loginWithButton(
                   onPressed: _googleSignIn,
                   appLogoUrl: ImagePath.googleLogo,

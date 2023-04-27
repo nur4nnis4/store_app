@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:store_app/providers/custom_notifier.dart';
 import 'package:store_app/providers/product_provider.dart';
 import 'package:store_app/widgets/feeds_product.dart';
 import 'package:store_app/widgets/my_badge.dart';
@@ -22,22 +23,32 @@ class FeedsScreen extends StatelessWidget {
       // body: FeedsProduct(),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 8),
-        child: Consumer<ProductProvider>(
-            builder: (_, productProvider, __) => GridView.count(
-                  crossAxisCount: 2,
-                  childAspectRatio: (MediaQuery.of(context).size.width) /
-                      (MediaQuery.of(context).size.width + 184),
-                  mainAxisSpacing: 8,
-                  children: List.generate(
-                    productProvider.products.length,
-                    (index) => ChangeNotifierProvider.value(
-                      value: productProvider.products[index],
-                      child: Center(
-                        child: FeedsProduct(),
-                      ),
-                    ),
+        child: Consumer<ProductProvider>(builder: (_, productProvider, __) {
+          if (productProvider.status[productProvider.getPopularProductsTask] ==
+              Status.Error) {
+            return Text('Error: error');
+          } else if (productProvider
+                  .status[productProvider.getPopularProductsTask] ==
+              Status.Done) {
+            return GridView.count(
+              crossAxisCount: 2,
+              childAspectRatio: (MediaQuery.of(context).size.width) /
+                  (MediaQuery.of(context).size.width + 184),
+              mainAxisSpacing: 8,
+              children: List.generate(
+                productProvider.products.length,
+                (index) => ChangeNotifierProvider.value(
+                  value: productProvider.products[index],
+                  child: Center(
+                    child: FeedsProduct(),
                   ),
-                )),
+                ),
+              ),
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        }),
       ),
     );
   }

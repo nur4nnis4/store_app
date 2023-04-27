@@ -1,4 +1,4 @@
-import 'package:store_app/core/constants/apiconfig.dart';
+import 'package:store_app/core/constants/.apiconfig.dart';
 
 class BrandModel {
   String name;

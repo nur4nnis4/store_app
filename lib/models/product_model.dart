@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:uuid/uuid.dart';
 
 class ProductModel with ChangeNotifier {
   String id;
@@ -45,7 +44,6 @@ class ProductModel with ChangeNotifier {
             : null,
       );
   Future<Map<String, dynamic>> toJson() async => {
-        "id": Uuid().v4(),
         "name": name,
         "price": price,
         "brand": brand,

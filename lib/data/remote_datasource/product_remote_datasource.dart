@@ -1,16 +1,17 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:store_app/core/constants/apiconfig.dart';
+import 'package:store_app/core/constants/.apiconfig.dart';
 import 'package:store_app/core/error/exceptions.dart';
 import 'package:store_app/models/product_model.dart';
 
-class ProductService {
+class ProductRemoteDatasource {
   final Dio dio;
 
-  ProductService({required this.dio});
+  ProductRemoteDatasource({required this.dio});
 
-  Future<ProductModel> createProduct(ProductModel productModel) async {
+  Future<ProductModel> createProduct(
+      ProductModel productModel, String accessToken) async {
     dio.options.headers['Accept'] = 'application/json';
     dio.options.headers['Authorization'] = 'Bearer $accessToken';
 
@@ -26,7 +27,6 @@ class ProductService {
   }
 
   Future<List<ProductModel>> fetchProducts() async {
-    dio.options.headers['Accept'] = 'application/json';
     try {
       final Response response = await dio.get('$baseUrl/products');
       final Map<String, dynamic> array = jsonDecode(response.toString());
@@ -40,7 +40,6 @@ class ProductService {
   }
 
   Future<ProductModel> fetchProduct(String id) async {
-    dio.options.headers['Accept'] = 'application/json';
     try {
       final Response response = await dio.get('$baseUrl/products/$id');
 
@@ -53,7 +52,6 @@ class ProductService {
   }
 
   Future<List<ProductModel>> fetchPopularProducts() async {
-    dio.options.headers['Accept'] = 'application/json';
     try {
       final Response response = await dio.get('$baseUrl/products-popular');
       final Map<String, dynamic> array = jsonDecode(response.toString());

@@ -4,6 +4,7 @@ import 'package:store_app/core/constants/route_name.dart';
 import 'package:store_app/models/brand_model.dart';
 import 'package:store_app/models/carousel_model.dart';
 import 'package:store_app/models/category_model.dart';
+import 'package:store_app/providers/custom_notifier.dart';
 import 'package:store_app/providers/product_provider.dart';
 import 'package:store_app/widgets/category.dart';
 import 'package:store_app/widgets/my_badge.dart';
@@ -86,72 +87,67 @@ class HomeScreen extends StatelessWidget {
                     () => Navigator.pushNamed(context, RouteName.categoryScreen,
                         arguments: 'Popular Products ')),
 
-                FutureBuilder(
-                    future: Provider.of<ProductProvider>(context)
-                        .fetchPopularProductsProvider(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 200,
-                            child: Consumer<ProductProvider>(
-                              builder: (_, consumerProvider, __) =>
-                                  ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                padding: EdgeInsets.symmetric(horizontal: 8),
-                                itemCount:
-                                    consumerProvider.popularProducts.length,
-                                itemBuilder: (context, index) =>
-                                    ChangeNotifierProvider.value(
-                                  value:
-                                      consumerProvider.popularProducts[index],
-                                  child: PopularProduct(),
-                                ),
-                              ),
-                            ),
-                          );
-                        }
-                      } else {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                    }),
+                Consumer<ProductProvider>(
+                  builder: (_, productProvider, __) {
+                    if (productProvider
+                            .status[productProvider.getPopularProductsTask] ==
+                        Status.Error) {
+                      return Text('Error: error');
+                    } else if (productProvider
+                            .status[productProvider.getPopularProductsTask] ==
+                        Status.Done) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 200,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          itemCount: productProvider.popularProducts.length,
+                          itemBuilder: (context, index) =>
+                              ChangeNotifierProvider.value(
+                            value: productProvider.popularProducts[index],
+                            child: PopularProduct(),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
 
                 _sectionTitle(context, 'RECOMMENDATIONS', () {}),
-                FutureBuilder(
-                    future: Provider.of<ProductProvider>(context)
-                        .fetchProductsProvider(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          return Consumer<ProductProvider>(
-                            builder: (_, productProvider, __) => GridView.count(
-                              crossAxisCount: 2,
-                              childAspectRatio:
-                                  (MediaQuery.of(context).size.width) /
-                                      (MediaQuery.of(context).size.width + 130),
-                              mainAxisSpacing: 8,
-                              shrinkWrap: true,
-                              children: List.generate(
-                                productProvider.products.length,
-                                (index) => ChangeNotifierProvider.value(
-                                  value: productProvider.products[index],
-                                  child: Center(
-                                    child: Recommendation(),
-                                  ),
-                                ),
-                              ),
+
+                Consumer<ProductProvider>(
+                  builder: (_, productProvider, __) {
+                    if (productProvider
+                            .status[productProvider.getProductsTask] ==
+                        Status.Error) {
+                      return Text('Error: error');
+                    } else if (productProvider
+                            .status[productProvider.getProductsTask] ==
+                        Status.Done) {
+                      return GridView.count(
+                        crossAxisCount: 2,
+                        childAspectRatio: (MediaQuery.of(context).size.width) /
+                            (MediaQuery.of(context).size.width + 130),
+                        mainAxisSpacing: 8,
+                        shrinkWrap: true,
+                        children: List.generate(
+                          productProvider.products.length,
+                          (index) => ChangeNotifierProvider.value(
+                            value: productProvider.products[index],
+                            child: Center(
+                              child: Recommendation(),
                             ),
-                          );
-                        }
-                      } else {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                    }),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
 
                 SizedBox(height: 30),
               ],

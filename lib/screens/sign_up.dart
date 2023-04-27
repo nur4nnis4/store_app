@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/models/user_model.dart';
 import 'package:store_app/providers/auth_provider.dart';
 import 'package:store_app/utils/ui/my_alert_dialog.dart';
 import 'package:store_app/utils/ui/my_border.dart';
-import 'package:store_app/widgets/image_preview.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -14,27 +12,26 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  late FocusNode _passwordNode;
-  late FocusNode _emailNode;
-  late FocusNode _phoneNumberNode;
-  String _pickedImagePath = '';
+  late FocusNode _passwordNode = FocusNode();
+  late FocusNode _emailNode = FocusNode();
+
+  late TextEditingController _passwordController = TextEditingController();
+  late TextEditingController _nameController = TextEditingController();
+  late TextEditingController _emailController = TextEditingController();
+
   final _formKey = new GlobalKey<FormState>();
-  bool _passwordIsVisible = false;
-  late UserModel _userModel;
-  late String _password;
+  late bool _passwordIsVisible;
   late bool _isEmailValid;
   late bool _isLoading;
-  String _emailErrorMessage = '';
+  late String _emailErrorMessage;
 
   @override
   void initState() {
     super.initState();
-    _userModel = new UserModel();
+    _passwordIsVisible = false;
     _isLoading = false;
     _isEmailValid = true;
-    _passwordNode = new FocusNode();
-    _emailNode = new FocusNode();
-    _phoneNumberNode = new FocusNode();
+    _emailErrorMessage = '';
   }
 
   @override
@@ -42,7 +39,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
     _passwordNode.dispose();
     _emailNode.dispose();
-    _phoneNumberNode.dispose();
+
+    _passwordController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
   }
 
   void _submitForm() async {
@@ -55,10 +55,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() => _isLoading = true);
 
       authProvider
-          .signUp(
-              email: _userModel.email.toLowerCase().trim(),
-              password: _password.trim(),
-              userModel: _userModel)
+          .register(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim(),
+              name: _nameController.text.trim())
           .then((_) {
         if (Navigator.canPop(context)) Navigator.pop(context);
       }).catchError((error) {
@@ -96,35 +96,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: TextStyle(fontSize: 22),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.07),
-
-                // Upload Profile Picture
-                Center(
-                  child: Stack(children: [
-                    ImagePreview(imagePath: _pickedImagePath),
-                    Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: SizedBox(
-                        height: 26,
-                        width: 26,
-                        child: RawMaterialButton(
-                          elevation: 5,
-                          fillColor: Theme.of(context).primaryColor,
-                          shape: CircleBorder(),
-                          onPressed: () async {
-                            MyAlertDialog.imagePicker(context)
-                                .then((pickedImagePath) => setState(
-                                    () => _pickedImagePath = pickedImagePath))
-                                .then((_) =>
-                                    _userModel.imageUrl = _pickedImagePath);
-                          },
-                          child: Icon(Icons.add_a_photo,
-                              color: Colors.white, size: 14),
-                        ),
-                      ),
-                    ),
-                  ]),
-                ),
                 Form(
                   key: _formKey,
                   child: Column(
@@ -133,6 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: TextFormField(
+                          controller: _nameController,
                           key: ValueKey('Full Name'),
                           textCapitalization: TextCapitalization.words,
                           validator: (value) => value!.isEmpty
@@ -151,7 +123,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           onEditingComplete: () =>
                               FocusScope.of(context).requestFocus(_emailNode),
-                          onSaved: (value) => _userModel.fullName = value!,
                         ),
                       ),
 
@@ -159,6 +130,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: TextFormField(
+                          controller: _emailController,
                           key: ValueKey('Email'),
                           validator: (value) {
                             if (!_isEmailValid) {
@@ -179,34 +151,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             fillColor: Theme.of(context).cardColor,
                           ),
                           onEditingComplete: () => FocusScope.of(context)
-                              .requestFocus(_phoneNumberNode),
-                          onSaved: (value) => _userModel.email = value!,
-                        ),
-                      ),
-
-                      // Phone Number TextFormField
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: TextFormField(
-                          key: ValueKey('Phone Number'),
-                          validator: (value) => value!.isEmpty
-                              ? 'Please enter a valid phone number'
-                              : null,
-                          focusNode: _phoneNumberNode,
-                          maxLines: 1,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                            labelText: 'Phone Number',
-                            contentPadding: EdgeInsets.all(12),
-                            border: const OutlineInputBorder(),
-                            enabledBorder: MyBorder.outlineInputBorder(context),
-                            filled: true,
-                            fillColor: Theme.of(context).cardColor,
-                          ),
-                          onEditingComplete: () => FocusScope.of(context)
                               .requestFocus(_passwordNode),
-                          onSaved: (value) => _userModel.phoneNumber = value!,
                         ),
                       ),
 
@@ -214,6 +159,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 14.0),
                         child: TextFormField(
+                          controller: _passwordController,
                           key: ValueKey('Password'),
                           validator: (value) => value!.isEmpty ||
                                   value.length < 8
@@ -248,7 +194,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ),
                           ),
-                          onSaved: (value) => _password = value!,
                         ),
                       ),
 

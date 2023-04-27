@@ -1,11 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:store_app/models/product_model.dart';
-import 'package:store_app/services/product_service.dart';
+import 'package:store_app/data/remote_datasource/product_remote_datasource.dart';
+import 'package:store_app/providers/custom_notifier.dart';
 
-class ProductProvider with ChangeNotifier {
-  final ProductService productService;
+class ProductProvider extends CustomNotifier {
+  final ProductRemoteDatasource productRemoteDatasource;
 
-  ProductProvider({required this.productService});
+  ProductProvider({required this.productRemoteDatasource});
+
+  final String getProductsTask = 'getProductsTask';
+  final String uploadProductTask = 'uploadProductTask';
+  final String getPopularProductsTask = 'getPopularProductsTask';
 
   List<ProductModel> _products = [];
   List<ProductModel> _popularProducts = [];
@@ -27,19 +31,36 @@ class ProductProvider with ChangeNotifier {
           (element) => element.name.toLowerCase().contains(query.toLowerCase()))
       .toList();
 
-  Future<void> uploadProduct(ProductModel productModel) async {
-    final product = await productService.createProduct(productModel);
-
-    _products.add(product);
-
+  Future<void> uploadProduct(
+      ProductModel productModel, String accessToken) async {
+    try {
+      final product = await productRemoteDatasource.createProduct(
+          productModel, accessToken);
+      _products.add(product);
+      setStatus(uploadProductTask, Status.Done);
+    } catch (e) {
+      setStatus(uploadProductTask, Status.Error);
+    }
     notifyListeners();
   }
 
   Future<void> fetchProductsProvider() async {
-    _products = await productService.fetchProducts();
+    try {
+      _products = await productRemoteDatasource.fetchProducts();
+      setStatus(getProductsTask, Status.Done);
+    } catch (e) {
+      setStatus(getProductsTask, Status.Error);
+    }
+    notifyListeners();
   }
 
-  Future<void> fetchPopularProductsProvider() async {
-    _popularProducts = await productService.fetchPopularProducts();
+  Future<void> fetchPopularProducts() async {
+    try {
+      _popularProducts = await productRemoteDatasource.fetchPopularProducts();
+      setStatus(getPopularProductsTask, Status.Done);
+    } catch (e) {
+      setStatus(getPopularProductsTask, Status.Error);
+    }
+    notifyListeners();
   }
 }
