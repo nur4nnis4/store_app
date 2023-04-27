@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store_app/models/category_model.dart';
 import 'package:store_app/models/product_model.dart';
+import 'package:store_app/providers/auth_provider.dart';
 import 'package:store_app/providers/product_provider.dart';
 import 'package:store_app/utils/ui/my_alert_dialog.dart';
 import 'package:store_app/utils/ui/my_border.dart';
@@ -54,7 +55,10 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
 
-      await productProvider.uploadProduct(_productModel).then((_) {
+      await productProvider
+          .uploadProduct(_productModel,
+              Provider.of<AuthProvider>(context, listen: false).authToken!)
+          .then((_) {
         MySnackBar().showSnackBar('Success', context);
       }).catchError((error) {
         MyAlertDialog.error(context, error.message);

@@ -9,9 +9,11 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PageController controller = PageController(initialPage: 1);
-
-    final _authProvider = Provider.of<AuthProvider>(context);
-    _authProvider.signInAnonymously();
+    Provider.of<ProductProvider>(context, listen: false).fetchPopularProducts();
+    Provider.of<ProductProvider>(context, listen: false)
+        .fetchProductsProvider();
+    Provider.of<AuthProvider>(context, listen: false).getLocalToken();
+    Provider.of<AuthProvider>(context, listen: false).getLocalUserId();
 
     return PageView(
       controller: controller,

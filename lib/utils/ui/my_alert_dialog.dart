@@ -59,15 +59,13 @@ class MyAlertDialog {
                 TextButton(
                     onPressed: () => Navigator.pop(context),
                     child: Text('Cancel'.toUpperCase())),
-                Consumer<AuthProvider>(
-                  builder: (_, authProvider, __) => TextButton(
-                      onPressed: () async {
-                        await authProvider.signOut(context);
-
-                        Navigator.pop(context);
-                      },
-                      child: Text('Sign Out'.toUpperCase())),
-                ),
+                TextButton(
+                    onPressed: () async {
+                      await Provider.of<AuthProvider>(context, listen: false)
+                          .signOut();
+                      Navigator.pop(context);
+                    },
+                    child: Text('Sign Out'.toUpperCase())),
               ],
             ));
   }
