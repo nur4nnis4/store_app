@@ -15,11 +15,14 @@ class AuthRemoteDatasource {
     try {
       Response response = await dio
           .post('$baseUrl/login', data: {'email': email, 'password': password});
-      if (response.statusCode == 200) {
-        return AuthModel.fromJson(jsonDecode(response.toString()));
-      } else
-        throw ServerException(message: response.toString());
+      return AuthModel.fromJson(jsonDecode(response.toString()));
     } catch (e) {
+      if (e is DioError) {
+        if (e.response!.statusCode == 401) {
+          final error = jsonDecode(e.response.toString());
+          throw ServerException(message: error['message']);
+        }
+      }
       throw ServerException(message: e.toString());
     }
   }
@@ -31,10 +34,20 @@ class AuthRemoteDatasource {
     try {
       Response response = await dio.post('$baseUrl/register',
           data: {'email': email, 'password': password, 'name': name});
-      if (response.statusCode == 201) {
-        return AuthModel.fromJson(jsonDecode(response.toString()));
-      } else
-        throw ServerException(message: response.toString());
+      return AuthModel.fromJson(jsonDecode(response.toString()));
+    } on DioError catch (e) {
+      final errorResponse = json.decode(e.response.toString());
+      if (e.response!.statusCode == 422) {
+        // TODO : Either change api error response or create a fromJson in InputException
+        Map<String, String> errors = errorResponse['errors']
+            .map((key, value) => MapEntry(key, value.cast<String>().first))
+            .cast<String, String>();
+        //  END OF TODO
+
+        throw InputException(message: errorResponse['message'], error: errors);
+      } else {
+        throw ServerException(message: errorResponse['message']);
+      }
     } catch (e) {
       throw ServerException(message: e.toString());
     }

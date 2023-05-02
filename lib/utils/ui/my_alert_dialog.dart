@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/providers/auth_provider.dart';
+import 'package:store_app/bloc/auth_bloc/auth_bloc.dart';
 
 class MyAlertDialog {
   void removeCartItem(context, Function() func) {
@@ -60,9 +60,9 @@ class MyAlertDialog {
                     onPressed: () => Navigator.pop(context),
                     child: Text('Cancel'.toUpperCase())),
                 TextButton(
-                    onPressed: () async {
-                      await Provider.of<AuthProvider>(context, listen: false)
-                          .signOut();
+                    onPressed: () {
+                      Provider.of<AuthBloc>(context, listen: false)
+                          .add(SignOutEvent());
                       Navigator.pop(context);
                     },
                     child: Text('Sign Out'.toUpperCase())),

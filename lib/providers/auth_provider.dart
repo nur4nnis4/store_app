@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:store_app/core/error/exceptions.dart';
+import 'package:store_app/core/error/failures.dart';
 import 'package:store_app/data/local_datasource/auth_local_datasource.dart';
 import 'package:store_app/data/local_datasource/user_local_datasource.dart';
 import 'package:store_app/data/remote_datasource/auth_remote_datasource.dart';
-import 'package:store_app/providers/custom_notifier.dart';
+import 'package:store_app/providers/base_provider.dart';
 
-class AuthProvider extends CustomNotifier {
+class AuthProvider extends BaseProvider {
   // final _googleSignIn = GoogleSignIn();
   final AuthRemoteDatasource authRemoteDatasource;
   final AuthLocalDatasource authLocalDatasource;
@@ -27,6 +28,16 @@ class AuthProvider extends CustomNotifier {
 
   bool get isLoggedIn => this._authToken != null && this._currentUserId != null;
 
+  Future<void> getLocalToken() async {
+    _authToken = await authLocalDatasource.getToken();
+    notifyListeners();
+  }
+
+  Future<void> getLocalUserId() async {
+    _currentUserId = await authLocalDatasource.getUserId();
+    notifyListeners();
+  }
+
   Future<void> signIn({required String email, required String password}) async {
     try {
       final authModel =
@@ -37,22 +48,12 @@ class AuthProvider extends CustomNotifier {
           token: authModel.token, userId: authModel.user.id);
       setStatus(authTask, Status.Done);
     } on ServerException catch (e) {
+      setError(authTask, FormFailure(message: e.message));
       setStatus(authTask, Status.Error);
-      print(e.message);
     } catch (e) {
       setStatus(authTask, Status.Error);
       print(e.toString());
     }
-    notifyListeners();
-  }
-
-  Future<void> getLocalToken() async {
-    _authToken = await authLocalDatasource.getToken();
-    notifyListeners();
-  }
-
-  Future<void> getLocalUserId() async {
-    _currentUserId = await authLocalDatasource.getUserId();
     notifyListeners();
   }
 
@@ -82,7 +83,7 @@ class AuthProvider extends CustomNotifier {
       if (!kIsWeb) {
         await userLocalDatasource.deleteUser();
       }
-      await authLocalDatasource.deleteToken();
+      await authLocalDatasource.deleteTokenandUserId();
       _authToken = null;
       _currentUserId = null;
       setStatus(authTask, Status.Done);
@@ -122,7 +123,7 @@ class AuthProvider extends CustomNotifier {
     // }
   }
 
-  //TODO : ImplementReset Password
+  //TODO : Implement Reset Password
   Future<void> resetPassword({required String email}) async {
     throw UnimplementedError();
   }

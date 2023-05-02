@@ -7,7 +7,7 @@ import 'package:store_app/models/wishlist_model.dart';
 import 'package:store_app/providers/cart_provider.dart';
 import 'package:store_app/providers/product_provider.dart';
 import 'package:store_app/providers/wishlist_provider.dart';
-import 'package:store_app/utils/ui/my_snackbar.dart';
+import 'package:store_app/widgets/custom_snackbar.dart';
 import 'package:store_app/widgets/my_badge.dart';
 import 'package:store_app/widgets/recommendation.dart';
 
@@ -234,8 +234,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 onTap: _cartProvider.isInCart(product.id)
                     ? () {
                         _cartProvider.removeFromCart(product.id);
-                        new MySnackBar()
-                            .showSnackBar('Removed from cart', context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            CustomSnackbar.snackbarAlert(context,
+                                content: 'Removed from cart'));
                       }
                     : () {
                         _cartProvider.addAndRemoveItem(CartModel(
@@ -243,7 +244,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             imageUrl: product.imageUrl,
                             name: product.name,
                             price: product.price));
-                        new MySnackBar().showSnackBar('Added to cart', context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            CustomSnackbar.snackbarAlert(context,
+                                content: 'Added to cart'));
                       },
                 child: Center(
                   child: _cartProvider.isInCart(product.id)

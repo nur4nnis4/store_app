@@ -6,8 +6,8 @@ import 'package:store_app/providers/auth_provider.dart';
 import 'package:store_app/providers/product_provider.dart';
 import 'package:store_app/utils/ui/my_alert_dialog.dart';
 import 'package:store_app/utils/ui/my_border.dart';
-import 'package:store_app/utils/ui/my_snackbar.dart';
-import 'package:store_app/widgets/authenticate.dart';
+import 'package:store_app/authenticate.dart';
+import 'package:store_app/widgets/custom_snackbar.dart';
 import 'package:store_app/widgets/image_preview.dart';
 
 class UploadProductScreen extends StatefulWidget {
@@ -59,7 +59,8 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
           .uploadProduct(_productModel,
               Provider.of<AuthProvider>(context, listen: false).authToken!)
           .then((_) {
-        MySnackBar().showSnackBar('Success', context);
+        ScaffoldMessenger.of(context).showSnackBar(
+            CustomSnackbar.snackbarAlert(context, content: 'Success'));
       }).catchError((error) {
         MyAlertDialog.error(context, error.message);
       }).whenComplete(() => setState(() => _isLoading = false));

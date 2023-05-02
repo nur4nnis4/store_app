@@ -7,7 +7,7 @@ import 'package:store_app/models/product_model.dart';
 import 'package:store_app/models/wishlist_model.dart';
 import 'package:store_app/providers/cart_provider.dart';
 import 'package:store_app/providers/wishlist_provider.dart';
-import 'package:store_app/utils/ui/my_snackbar.dart';
+import 'package:store_app/widgets/custom_snackbar.dart';
 import 'package:store_app/widgets/my_badge.dart';
 import 'package:store_app/widgets/my_button.dart';
 
@@ -71,8 +71,12 @@ class PopularProduct extends StatelessWidget {
                                   ? () {
                                       cartProvider
                                           .removeFromCart(_popularProduct.id);
-                                      new MySnackBar().showSnackBar(
-                                          'Removed from cart', context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                              CustomSnackbar.snackbarAlert(
+                                                  context,
+                                                  content:
+                                                      'Removed from cart'));
                                     }
                                   : () {
                                       cartProvider.addAndRemoveItem(CartModel(
@@ -80,8 +84,11 @@ class PopularProduct extends StatelessWidget {
                                           imageUrl: _popularProduct.imageUrl,
                                           name: _popularProduct.name,
                                           price: _popularProduct.price));
-                                      new MySnackBar().showSnackBar(
-                                          'Added to cart', context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                              CustomSnackbar.snackbarAlert(
+                                                  context,
+                                                  content: 'Added to cart'));
                                     },
                             ),
                           ),

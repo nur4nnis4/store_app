@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/providers/custom_notifier.dart';
+import 'package:store_app/providers/base_provider.dart';
 import 'package:store_app/providers/product_provider.dart';
 import 'package:store_app/widgets/feeds_product.dart';
 import 'package:store_app/widgets/my_badge.dart';

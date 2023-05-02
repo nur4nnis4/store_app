@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_app/bloc/auth_bloc/auth_bloc.dart';
 import 'package:store_app/core/constants/app_consntants.dart';
 import 'package:store_app/core/constants/assets_path.dart';
 import 'package:store_app/core/constants/route_name.dart';
-import 'package:store_app/providers/auth_provider.dart';
-import 'package:store_app/providers/custom_notifier.dart';
+import 'package:store_app/providers/base_provider.dart';
 import 'package:store_app/providers/theme_change_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:store_app/providers/user_data_provider.dart';
@@ -29,167 +30,165 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   Widget build(BuildContext context) {
     final _themeChange = Provider.of<ThemeChangeProvider>(context);
 
-    return Consumer<AuthProvider>(builder: (_, _authProvider, __) {
-      if (_authProvider.isLoggedIn) {
-        Provider.of<UserDataProvider>(context, listen: false).fetchUser(
-            id: _authProvider.currentUserId!,
-            accessToken: _authProvider.authToken!);
-      }
-      return Scaffold(
-        body: Stack(
-          children: [
-            CustomScrollView(
-              controller: _scrollController,
-              slivers: [
-                SliverAppBar(
-                  expandedHeight: 200,
-                  pinned: true,
-                  elevation: 0,
-                  flexibleSpace: Consumer<UserDataProvider>(
-                      builder: (_, _userProvider, __) {
-                    if (_userProvider.status[_userProvider.fetchUserTask] ==
-                        Status.Done) {
-                      return FlexibleSpaceBar(
-                        background: Image.network(
-                          _userProvider.userData!.photoUrl!,
-                          fit: BoxFit.cover,
-                        ),
-                      );
-                    } else {
-                      return FlexibleSpaceBar(
-                        background: Image.asset(ImagePath.profilePlaceholder,
-                            fit: BoxFit.cover),
-                      );
-                    }
-                  }),
-                ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 28.0, horizontal: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //    User bag section
-
-                        _sectionTitle('User Bag'),
-                        Card(
-                          child: Column(
-                            children: [
-                              _userBagListTile(
-                                  'Wishlist',
-                                  mWishListIcon,
-                                  mTrailingIcon,
-                                  context,
-                                  () => Navigator.of(context)
-                                      .pushNamed(RouteName.wishlistScreen)),
-                              _userBagListTile(
-                                  'Cart',
-                                  mCartIcon,
-                                  mTrailingIcon,
-                                  context,
-                                  () => Navigator.of(context)
-                                      .pushNamed(RouteName.cartScreen)),
-                            ],
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is AuthAuthenticated) {
+          Provider.of<UserDataProvider>(context, listen: false)
+              .fetchUser(id: state.userId, accessToken: state.authToken);
+        }
+        return Scaffold(
+          body: Stack(
+            children: [
+              CustomScrollView(
+                controller: _scrollController,
+                slivers: [
+                  SliverAppBar(
+                    expandedHeight: 200,
+                    pinned: true,
+                    elevation: 0,
+                    flexibleSpace: Consumer<UserDataProvider>(
+                        builder: (_, _userProvider, __) {
+                      if (_userProvider.status[_userProvider.fetchUserTask] ==
+                          Status.Done) {
+                        return FlexibleSpaceBar(
+                          background: Image.network(
+                            _userProvider.userData!.photoUrl!,
+                            fit: BoxFit.cover,
                           ),
-                        ),
+                        );
+                      } else {
+                        return FlexibleSpaceBar(
+                          background: Image.asset(ImagePath.profilePlaceholder,
+                              fit: BoxFit.cover),
+                        );
+                      }
+                    }),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 28.0, horizontal: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //    User bag section
 
-                        //    User information section
+                          _sectionTitle('User Bag'),
+                          Card(
+                            child: Column(
+                              children: [
+                                _userBagListTile(
+                                    'Wishlist',
+                                    mWishListIcon,
+                                    mTrailingIcon,
+                                    context,
+                                    () => Navigator.of(context)
+                                        .pushNamed(RouteName.wishlistScreen)),
+                                _userBagListTile(
+                                    'Cart',
+                                    mCartIcon,
+                                    mTrailingIcon,
+                                    context,
+                                    () => Navigator.of(context)
+                                        .pushNamed(RouteName.cartScreen)),
+                              ],
+                            ),
+                          ),
 
-                        _sectionTitle('User Information'),
-                        Card(
-                          child: Consumer<UserDataProvider>(
-                              builder: (_, _userProvider, __) {
-                            if (_userProvider
-                                    .status[_userProvider.fetchUserTask] ==
-                                Status.Done) {
-                              return Column(
-                                children: [
-                                  _userInformationListTile(
-                                      _userProvider.userData!.name,
-                                      mUserIcon,
-                                      context),
-                                  _userInformationListTile(
-                                      _userProvider.userData!.email,
-                                      mEmailIcon,
-                                      context),
-                                  _userProvider.userData!.phoneNumber != null
-                                      ? _userInformationListTile(
-                                          _userProvider.userData!.phoneNumber,
-                                          mPhoneIcon,
-                                          context)
-                                      : Container(),
-                                  _userProvider.userData!.address != null
-                                      ? _userInformationListTile(
-                                          _userProvider.userData!.address,
-                                          mShippingAddress,
-                                          context)
-                                      : Container(),
-                                  _userInformationListTile(
-                                      'Joined ${_userProvider.userData!.joinedAt.year}',
-                                      mJoinDateIcon,
-                                      context),
-                                ],
-                              );
-                            } else {
-                              return Column(
-                                children: [
-                                  _userInformationListTile(
-                                      '', mUserIcon, context),
-                                  _userInformationListTile(
-                                      '', mEmailIcon, context),
-                                  _userInformationListTile(
-                                      '', mPhoneIcon, context),
-                                  _userInformationListTile(
-                                      '', mShippingAddress, context),
-                                  _userInformationListTile(
-                                      '', mJoinDateIcon, context),
-                                ],
-                              );
-                            }
-                          }),
-                        ),
+                          //    User information section
 
-                        //    Settings Section
+                          _sectionTitle('User Information'),
+                          Card(
+                            child: Consumer<UserDataProvider>(
+                                builder: (_, _userProvider, __) {
+                              if (_userProvider
+                                      .status[_userProvider.fetchUserTask] ==
+                                  Status.Done) {
+                                return Column(
+                                  children: [
+                                    _userInformationListTile(
+                                        _userProvider.userData!.name,
+                                        mUserIcon,
+                                        context),
+                                    _userInformationListTile(
+                                        _userProvider.userData!.email,
+                                        mEmailIcon,
+                                        context),
+                                    _userProvider.userData!.phoneNumber != null
+                                        ? _userInformationListTile(
+                                            _userProvider.userData!.phoneNumber,
+                                            mPhoneIcon,
+                                            context)
+                                        : Container(),
+                                    _userProvider.userData!.address != null
+                                        ? _userInformationListTile(
+                                            _userProvider.userData!.address,
+                                            mShippingAddress,
+                                            context)
+                                        : Container(),
+                                    _userInformationListTile(
+                                        'Joined ${_userProvider.userData!.joinedAt.year}',
+                                        mJoinDateIcon,
+                                        context),
+                                  ],
+                                );
+                              } else {
+                                return Column(
+                                  children: [
+                                    _userInformationListTile(
+                                        '', mUserIcon, context),
+                                    _userInformationListTile(
+                                        '', mEmailIcon, context),
+                                    _userInformationListTile(
+                                        '', mPhoneIcon, context),
+                                    _userInformationListTile(
+                                        '', mShippingAddress, context),
+                                    _userInformationListTile(
+                                        '', mJoinDateIcon, context),
+                                  ],
+                                );
+                              }
+                            }),
+                          ),
 
-                        _sectionTitle('Settings'),
-                        Card(
-                          child: Column(
-                            children: [
-                              SwitchListTile(
-                                title: const Text('Dark Theme'),
-                                secondary: _customIcon(Icons.dark_mode),
-                                value: _themeChange.isDarkTheme,
-                                onChanged: (bool value) {
-                                  // TODO : check if setState is necessary
-                                  setState(() {
+                          //    Settings Section
+
+                          _sectionTitle('Settings'),
+                          Card(
+                            child: Column(
+                              children: [
+                                SwitchListTile(
+                                  title: const Text('Dark Theme'),
+                                  secondary: _customIcon(Icons.dark_mode),
+                                  value: _themeChange.isDarkTheme,
+                                  onChanged: (bool value) {
                                     _themeChange.isDarkTheme = value;
-                                  });
-                                },
-                              ),
-                              ListTile(
-                                  title: Text('Sign Out'),
-                                  leading:
-                                      _customIcon(Icons.exit_to_app_outlined),
-                                  onTap: () {
-                                    MyAlertDialog.signOut(context);
-                                  }),
-                            ],
+                                  },
+                                ),
+                                ListTile(
+                                    title: Text('Sign Out'),
+                                    leading:
+                                        _customIcon(Icons.exit_to_app_outlined),
+                                    onTap: () {
+                                      MyAlertDialog.signOut(context);
+                                    }),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
 
-            // Floating Button Appbar to upload profile picture
-            _uploadPictureFab(),
-          ],
-        ),
-      );
-    });
+              // Floating Button Appbar to upload profile picture
+              _uploadPictureFab(),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _userInformationListTile(title, icon, context) {

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:store_app/bloc/auth_bloc/auth_bloc.dart';
 import 'package:store_app/core/constants/assets_path.dart';
 import 'package:store_app/core/constants/route_name.dart';
 import 'package:store_app/providers/auth_provider.dart';
-import 'package:store_app/utils/ui/my_alert_dialog.dart';
 import 'package:store_app/utils/ui/my_border.dart';
+import 'package:store_app/widgets/custom_snackbar.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -17,8 +19,6 @@ class _LogInScreenState extends State<LogInScreen> {
   late FocusNode _passwordNode;
   final _formKey = GlobalKey<FormState>();
   bool _passwordIsVisibile = false;
-  bool _wrongEmailorPassword = false;
-  bool _isLoading = false;
 
   late TextEditingController _passwordController = TextEditingController();
   late TextEditingController _emailController = TextEditingController();
@@ -37,235 +37,223 @@ class _LogInScreenState extends State<LogInScreen> {
 
   void _submitForm() async {
     final isValid = _formKey.currentState!.validate();
-
     FocusScope.of(context).unfocus();
-    setState(() => _wrongEmailorPassword = false);
     if (isValid) {
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      _formKey.currentState!.save();
-      setState(() => _isLoading = true);
-
-      authProvider
-          .signIn(
-              email: _emailController.text.trim(),
-              password: _passwordController.text.trim())
-          .then((_) {
-        if (Navigator.canPop(context)) Navigator.pop(context);
-      }).catchError((e) {
-        print(e.toString());
-        if (e.toString().contains('wrong-password') ||
-            e.toString().contains('user-not-found')) {
-          setState(() => _wrongEmailorPassword = true);
-        } else if (e.toString().toLowerCase().contains('network')) {
-          MyAlertDialog.connectionError(context);
-        } else {
-          MyAlertDialog.error(context, e.message.toString());
-        }
-      }).whenComplete(() {
-        setState(() => _isLoading = false);
-      });
+      context.read<AuthBloc>().add(SignInWithEmailEvent(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim()));
     }
   }
 
+  // TODO : fix google sign in
   void _googleSignIn() async {
-    setState(() => _isLoading = true);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     authProvider.googleSignIn().then((_) {
       if (Navigator.canPop(context)) Navigator.pop(context);
-    }).whenComplete(() => setState(() => _isLoading = false));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        body: Container(
-          margin: EdgeInsets.all(20),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-                //  App Logo
-                Row(
-                  children: [
-                    Icon(
-                      Icons.shopping_bag_rounded,
-                      size: 32,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    Text(
-                      ' ShopApp',
-                      style: TextStyle(fontSize: 22),
-                    )
-                  ],
-                ),
-
-                //Show Log In error message
-                Container(
-                  height: 65,
-                  padding: EdgeInsets.only(top: 14),
-                  child: _wrongEmailorPassword
-                      ? Text(
-                          'The email or password you entered did not match our records. Please double check and try again',
-                          style: TextStyle(color: Colors.redAccent),
-                        )
-                      : null,
-                ),
-
-                Form(
-                  key: _formKey,
-                  child: Column(
+    // TODO : Remove BlocListener below
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthLoading) {
+          CustomSnackbar.loadingSnackbar(context, text: 'Signing In');
+        } else {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        }
+      },
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          body: Container(
+            margin: EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                  //  App Logo
+                  Row(
                     children: [
-                      // Email TextFormField
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        child: TextFormField(
-                          controller: _emailController,
-                          key: ValueKey('Email'),
-                          validator: (value) =>
-                              value!.isEmpty || !value.contains('@')
-                                  ? 'Please enter a valid email address'
-                                  : null,
-                          maxLines: 1,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            labelText: 'Email',
-                            contentPadding: EdgeInsets.all(12),
-                            border: const OutlineInputBorder(),
-                            enabledBorder: MyBorder.outlineInputBorder(context),
-                            filled: true,
-                            fillColor: Theme.of(context).cardColor,
-                          ),
-                          onEditingComplete: () => FocusScope.of(context)
-                              .requestFocus(_passwordNode),
-                        ),
+                      Icon(
+                        Icons.shopping_bag_rounded,
+                        size: 32,
+                        color: Theme.of(context).primaryColor,
                       ),
+                      Text(
+                        ' ShopApp',
+                        style: TextStyle(fontSize: 22),
+                      )
+                    ],
+                  ),
 
-                      // Password TextFormField
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 14.0),
-                        child: TextFormField(
-                          controller: _passwordController,
-                          key: ValueKey('Password'),
-                          validator: (value) => value!.isEmpty
-                              ? 'Please enter a valid password'
-                              : null,
-                          maxLines: 1,
-                          focusNode: _passwordNode,
-                          keyboardType: TextInputType.visiblePassword,
-                          onEditingComplete: _submitForm,
-                          obscureText: !_passwordIsVisibile,
-                          decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 12),
-                            labelText: 'Password',
-                            border: const OutlineInputBorder(),
-                            enabledBorder: MyBorder.outlineInputBorder(context),
-                            filled: true,
-                            fillColor: Theme.of(context).cardColor,
-                            suffix: SizedBox(
-                              height: 32,
-                              width: 28,
-                              child: IconButton(
-                                onPressed: () => setState(() =>
-                                    _passwordIsVisibile = !_passwordIsVisibile),
-                                splashRadius: 18,
-                                iconSize: 18,
-                                icon: Icon(
-                                  _passwordIsVisibile
-                                      ? Icons.visibility_off_outlined
-                                      : Icons.visibility_outlined,
+                  //Show Log In error message
+                  BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      if (state is AuthError) {
+                        return Container(
+                            height: 65,
+                            padding: EdgeInsets.only(top: 14),
+                            child: Text(
+                              state.errorMessage,
+                              style: TextStyle(color: Colors.redAccent),
+                            ));
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        // Email TextFormField
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          child: TextFormField(
+                            controller: _emailController,
+                            key: ValueKey('Email'),
+                            validator: (value) =>
+                                value!.isEmpty || !value.contains('@')
+                                    ? 'Please enter a valid email address'
+                                    : null,
+                            maxLines: 1,
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              labelText: 'Email',
+                              contentPadding: EdgeInsets.all(12),
+                              border: const OutlineInputBorder(),
+                              enabledBorder:
+                                  MyBorder.outlineInputBorder(context),
+                              filled: true,
+                              fillColor: Theme.of(context).cardColor,
+                            ),
+                            onEditingComplete: () => FocusScope.of(context)
+                                .requestFocus(_passwordNode),
+                          ),
+                        ),
+
+                        // Password TextFormField
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 14.0),
+                          child: TextFormField(
+                            controller: _passwordController,
+                            key: ValueKey('Password'),
+                            validator: (value) => value!.isEmpty
+                                ? 'Please enter a valid password'
+                                : null,
+                            maxLines: 1,
+                            focusNode: _passwordNode,
+                            keyboardType: TextInputType.visiblePassword,
+                            onEditingComplete: _submitForm,
+                            obscureText: !_passwordIsVisibile,
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 12),
+                              labelText: 'Password',
+                              border: const OutlineInputBorder(),
+                              enabledBorder:
+                                  MyBorder.outlineInputBorder(context),
+                              filled: true,
+                              fillColor: Theme.of(context).cardColor,
+                              suffix: SizedBox(
+                                height: 32,
+                                width: 28,
+                                child: IconButton(
+                                  onPressed: () => setState(() =>
+                                      _passwordIsVisibile =
+                                          !_passwordIsVisibile),
+                                  splashRadius: 18,
+                                  iconSize: 18,
+                                  icon: Icon(
+                                    _passwordIsVisibile
+                                        ? Icons.visibility_off_outlined
+                                        : Icons.visibility_outlined,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
 
-                      // Forgot Password Button
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, RouteName.forgotPasswordScreen);
-                            },
-                            child: Text(
-                              'Forgot password ?',
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor),
-                            )),
-                      ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02),
-
-                      // Log in button
-                      SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () => _submitForm(),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                _isLoading
-                                    ? CircularProgressIndicator(
-                                        color: Colors.white,
-                                      )
-                                    : Text('Log In'),
-                              ]),
+                        // Forgot Password Button
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, RouteName.forgotPasswordScreen);
+                              },
+                              child: Text(
+                                'Forgot password ?',
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                              )),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02),
 
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.06,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(child: Divider(thickness: 1)),
-                      Text('  or   ',
-                          style: Theme.of(context).textTheme.subtitle2),
-                      Expanded(child: Divider(thickness: 1)),
-                    ],
-                  ),
-                ),
-
-                // Button Log In with Google
-                _loginWithButton(
-                  onPressed: _googleSignIn,
-                  appLogoUrl: ImagePath.googleLogo,
-                  title: 'Log in with Google',
-                ),
-                SizedBox(height: 16),
-                _loginWithButton(
-                  onPressed: () {},
-                  appLogoUrl: ImagePath.facebookLogo,
-                  title: 'Log in with Facebook',
-                ),
-
-                SizedBox(
-                  height: 16,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Don\'t have an account? ',
-                      style: Theme.of(context).textTheme.subtitle2,
+                        // Log in button
+                        SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: ElevatedButton(
+                              onPressed: () => _submitForm(),
+                              child: Text('Log In')),
+                        ),
+                      ],
                     ),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, RouteName.signUpScreen);
-                        },
-                        child: Text('Sign up'))
-                  ],
-                )
-              ],
+                  ),
+
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(child: Divider(thickness: 1)),
+                        Text('  or   ',
+                            style: Theme.of(context).textTheme.subtitle2),
+                        Expanded(child: Divider(thickness: 1)),
+                      ],
+                    ),
+                  ),
+
+                  // Button Log In with Google
+                  _loginWithButton(
+                    onPressed: _googleSignIn,
+                    appLogoUrl: ImagePath.googleLogo,
+                    title: 'Log in with Google',
+                  ),
+                  SizedBox(height: 16),
+                  _loginWithButton(
+                    onPressed: () {},
+                    appLogoUrl: ImagePath.facebookLogo,
+                    title: 'Log in with Facebook',
+                  ),
+
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Don\'t have an account? ',
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, RouteName.signUpScreen);
+                          },
+                          child: Text('Sign up'))
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

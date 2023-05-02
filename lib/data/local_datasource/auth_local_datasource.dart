@@ -24,7 +24,7 @@ class AuthLocalDatasource {
     return storage.read(key: 'user_id');
   }
 
-  Future<void> deleteToken() async {
+  Future<void> deleteTokenandUserId() async {
     await storage.delete(key: 'token');
     await storage.delete(key: 'user_id');
   }

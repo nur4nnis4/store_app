@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store_app/core/constants/app_consntants.dart';
 import 'package:store_app/providers/cart_provider.dart';
-import 'package:store_app/widgets/authenticate.dart';
+import 'package:store_app/authenticate.dart';
 import 'package:store_app/widgets/empty_cart.dart';
 import 'package:store_app/widgets/full_cart.dart';
 import 'package:store_app/utils/ui/my_alert_dialog.dart';

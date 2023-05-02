@@ -3,14 +3,11 @@ abstract class Failure {
   const Failure(this.message);
 }
 
-class ConnectionFailure extends Failure {
-  const ConnectionFailure(String message) : super(message);
-}
+class FormFailure extends Failure {
+  String? emailError;
+  String? nameError;
+  String? passwordError;
 
-class PlatformFailure extends Failure {
-  const PlatformFailure(String message) : super(message);
-}
-
-class PluginFailure extends Failure {
-  PluginFailure(String message) : super(message);
+  FormFailure({required String message, emailError, nameError, passwordError})
+      : super(message);
 }

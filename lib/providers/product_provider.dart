@@ -1,8 +1,8 @@
 import 'package:store_app/models/product_model.dart';
 import 'package:store_app/data/remote_datasource/product_remote_datasource.dart';
-import 'package:store_app/providers/custom_notifier.dart';
+import 'package:store_app/providers/base_provider.dart';
 
-class ProductProvider extends CustomNotifier {
+class ProductProvider extends BaseProvider {
   final ProductRemoteDatasource productRemoteDatasource;
 
   ProductProvider({required this.productRemoteDatasource});

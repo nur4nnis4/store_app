@@ -4,12 +4,21 @@ class ServerException implements Exception {
   ServerException({required this.message});
 }
 
-class CacheException implements Exception {}
+class AuthException implements Exception {
+  String? message;
 
-class PluginException implements Exception {}
+  AuthException({this.message});
+}
 
 class ConnectionException implements Exception {
   final String message;
 
   ConnectionException({required this.message});
+}
+
+class InputException implements Exception {
+  final String message;
+  final Map<String, String> error;
+
+  InputException({required this.message, required this.error});
 }

@@ -3,9 +3,9 @@ import 'package:store_app/core/network/network_info.dart';
 import 'package:store_app/data/local_datasource/user_local_datasource.dart';
 import 'package:store_app/data/remote_datasource/user_remote_datasource.dart';
 import 'package:store_app/models/user_model.dart';
-import 'package:store_app/providers/custom_notifier.dart';
+import 'package:store_app/providers/base_provider.dart';
 
-class UserDataProvider extends CustomNotifier {
+class UserDataProvider extends BaseProvider {
   final UserRemoteDatasource userRemoteDatasource;
   final UserLocalDatasource userLocalDatasource;
   final NetworkInfo networkInfo;
@@ -29,6 +29,7 @@ class UserDataProvider extends CustomNotifier {
 
   Future<void> fetchUser(
       {required String id, required String accessToken}) async {
+    print('FetchUser : $id');
     try {
       final isConnected = await networkInfo.isConnected;
       if (isConnected) {

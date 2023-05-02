@@ -4,7 +4,7 @@ import 'package:store_app/core/constants/route_name.dart';
 import 'package:store_app/models/brand_model.dart';
 import 'package:store_app/models/carousel_model.dart';
 import 'package:store_app/models/category_model.dart';
-import 'package:store_app/providers/custom_notifier.dart';
+import 'package:store_app/providers/base_provider.dart';
 import 'package:store_app/providers/product_provider.dart';
 import 'package:store_app/widgets/category.dart';
 import 'package:store_app/widgets/my_badge.dart';

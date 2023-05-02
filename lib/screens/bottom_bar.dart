@@ -5,7 +5,7 @@ import 'package:store_app/screens/home.dart';
 import 'package:store_app/screens/search.dart';
 import 'package:store_app/screens/user_info.dart';
 import 'package:store_app/screens/wishlist.dart';
-import 'package:store_app/widgets/authenticate.dart';
+import 'package:store_app/authenticate.dart';
 
 class BottomBarScreen extends StatefulWidget {
   @override
