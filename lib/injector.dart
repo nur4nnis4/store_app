@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:store_app/bloc/auth_bloc/auth_bloc.dart';
+import 'package:store_app/bloc/user_bloc/user_bloc.dart';
 import 'package:store_app/core/network/network_info.dart';
 import 'package:store_app/data/local_datasource/auth_local_datasource.dart';
 import 'package:store_app/data/local_datasource/user_local_datasource.dart';
@@ -26,6 +27,12 @@ void init() {
       authLocalDatasource: sLocator(),
       userLocalDatasource: sLocator(),
       userFormValidator: sLocator()));
+
+  sLocator.registerFactory(() => UserBloc(
+        userRemoteDatasource: sLocator(),
+        userLocalDatasource: sLocator(),
+        networkInfo: sLocator(),
+      ));
 
   //Utils
 

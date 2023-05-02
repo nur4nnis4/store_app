@@ -29,7 +29,6 @@ class UserDataProvider extends BaseProvider {
 
   Future<void> fetchUser(
       {required String id, required String accessToken}) async {
-    print('FetchUser : $id');
     try {
       final isConnected = await networkInfo.isConnected;
       if (isConnected) {

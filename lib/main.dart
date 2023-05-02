@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:store_app/bloc/auth_bloc/auth_bloc.dart';
+import 'package:store_app/bloc/user_bloc/user_bloc.dart';
 import 'package:store_app/core/constants/theme_data.dart';
 import 'package:store_app/data/local_datasource/theme_preferences.dart';
 import 'package:store_app/injector.dart' as Injector;
@@ -45,6 +46,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<AuthBloc>(
           create: (BuildContext context) => Injector.sLocator<AuthBloc>(),
+        ),
+        BlocProvider<UserBloc>(
+          create: (BuildContext context) => Injector.sLocator<UserBloc>(),
         ),
       ],
       child: ChangeNotifierProvider(

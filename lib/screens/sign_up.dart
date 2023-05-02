@@ -47,6 +47,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       listener: (context, state) {
         if (state is AuthLoading) {
           CustomSnackbar.loadingSnackbar(context, text: state.message);
+        } else if (state is AuthAuthenticated) {
+          if (Navigator.canPop(context)) Navigator.pop(context);
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
         } else {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
         }

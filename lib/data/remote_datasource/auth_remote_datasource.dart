@@ -38,12 +38,9 @@ class AuthRemoteDatasource {
     } on DioError catch (e) {
       final errorResponse = json.decode(e.response.toString());
       if (e.response!.statusCode == 422) {
-        // TODO : Either change api error response or create a fromJson in InputException
         Map<String, String> errors = errorResponse['errors']
             .map((key, value) => MapEntry(key, value.cast<String>().first))
             .cast<String, String>();
-        //  END OF TODO
-
         throw InputException(message: errorResponse['message'], error: errors);
       } else {
         throw ServerException(message: errorResponse['message']);
