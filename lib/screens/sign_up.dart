@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:store_app/bloc/auth_bloc/auth_bloc.dart';
 import 'package:store_app/utils/ui/my_border.dart';
-import 'package:store_app/widgets/custom_snackbar.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -45,13 +44,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is AuthLoading) {
-          CustomSnackbar.loadingSnackbar(context, text: state.message);
-        } else if (state is AuthAuthenticated) {
+        if (state is AuthAuthenticated) {
           if (Navigator.canPop(context)) Navigator.pop(context);
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        } else {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
         }
       },
       child: GestureDetector(

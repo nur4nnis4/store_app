@@ -1,0 +1,4 @@
+0000000000000000000000000000000000000000 6b96755c85392dbe308ef20de76328f4fe04cdeb Nur Annisa <nur4nnis4@gmail.com> 1680950804 +0700	branch: Created from master
+6b96755c85392dbe308ef20de76328f4fe04cdeb c5c393ca1fd6826c249bb2b2c32c71e1d23aeebd Nur Annisa <nur4nnis4@gmail.com> 1681302015 +0700	commit: Migrate from firebase to Laravel API
+c5c393ca1fd6826c249bb2b2c32c71e1d23aeebd c6a8abd751e8fda4874fcde5e0975a46607f7b62 Nur Annisa <nur4nnis4@gmail.com> 1681578377 +0700	pull: Fast-forward
+c6a8abd751e8fda4874fcde5e0975a46607f7b62 057292420181400392fa093bdd9d7918ff0c4d89 Nur Annisa <nur4nnis4@gmail.com> 1681586904 +0700	commit (amend): Add upload product

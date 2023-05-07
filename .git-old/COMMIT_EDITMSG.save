@@ -1,0 +1,25 @@
+Merge branch 'main' of github.com:nur4nnis4/store_app
+
+# Conflicts:
+#	lib/core/network/network_info.dart
+#	lib/providers/auth_provider.dart
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please run
+#	git update-ref -d MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch main
+# Your branch and 'origin/main' have diverged,
+# and have 1 and 1 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   lib/screens/main_screen.dart
+#

@@ -10,7 +10,6 @@ import 'package:store_app/providers/theme_change_provider.dart';
 import 'package:store_app/screens/inner_screens/forgot_password.dart';
 import 'package:store_app/screens/main_screen.dart';
 import 'package:store_app/providers/auth_provider.dart';
-import 'package:store_app/providers/user_data_provider.dart';
 import 'package:store_app/screens/bottom_bar.dart';
 import 'package:store_app/screens/upload_product.dart';
 
@@ -57,8 +56,6 @@ class MyApp extends StatelessWidget {
           providers: [
             ChangeNotifierProvider(
                 create: (_) => Injector.sLocator<AuthProvider>()),
-            ChangeNotifierProvider(
-                create: (_) => Injector.sLocator<UserDataProvider>()),
             ChangeNotifierProvider(
                 create: (_) => Injector.sLocator<ProductProvider>()),
             ChangeNotifierProvider(create: (_) => new CartProvider()),

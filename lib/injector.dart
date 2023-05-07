@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:store_app/bloc/auth_bloc/auth_bloc.dart';
 import 'package:store_app/bloc/user_bloc/user_bloc.dart';
 import 'package:store_app/core/network/network_info.dart';
@@ -12,7 +13,6 @@ import 'package:store_app/data/remote_datasource/product_remote_datasource.dart'
 import 'package:store_app/data/remote_datasource/user_remote_datasource.dart';
 import 'package:store_app/providers/auth_provider.dart';
 import 'package:store_app/providers/product_provider.dart';
-import 'package:store_app/providers/user_data_provider.dart';
 import 'package:store_app/utils/ui/user_form_validator.dart';
 
 final sLocator = GetIt.instance;
@@ -45,14 +45,10 @@ void init() {
       authLocalDatasource: sLocator()));
   sLocator.registerFactory(
       () => ProductProvider(productRemoteDatasource: sLocator()));
-  sLocator.registerFactory(() => UserDataProvider(
-        userRemoteDatasource: sLocator(),
-        userLocalDatasource: sLocator(),
-        networkInfo: sLocator(),
-      ));
 
   // Datasources
-  sLocator.registerLazySingleton(() => AuthRemoteDatasource(dio: sLocator()));
+  sLocator.registerLazySingleton(
+      () => AuthRemoteDatasource(dio: sLocator(), googleSignIn: sLocator()));
   sLocator
       .registerLazySingleton(() => AuthLocalDatasource(storage: sLocator()));
 
@@ -66,6 +62,8 @@ void init() {
 
   sLocator.registerLazySingleton(
       () => Dio(BaseOptions(headers: {'Accept': 'application/json'})));
+
+  sLocator.registerLazySingleton(() => GoogleSignIn());
 
   sLocator.registerLazySingleton(
     () => FlutterSecureStorage(

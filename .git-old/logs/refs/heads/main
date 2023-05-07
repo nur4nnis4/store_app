@@ -1,0 +1,11 @@
+0000000000000000000000000000000000000000 27b4e3b1b0d192af023f5714cb24e9893b028d55 Nur Annisa <nur4nnis4@gmail.com> 1681659162 +0700	branch: Created from master
+27b4e3b1b0d192af023f5714cb24e9893b028d55 46bad374fb3b7345ff875d36d82117b6c0936ade Nur Annisa <nur4nnis4@gmail.com> 1681659243 +0700	cherry-pick: Migrate from firebase to Laravel API
+46bad374fb3b7345ff875d36d82117b6c0936ade fa8af9d58fb99ce639f60f9c267a0ea033056364 Nur Annisa <nur4nnis4@gmail.com> 1681659380 +0700	cherry-pick: Add upload product
+fa8af9d58fb99ce639f60f9c267a0ea033056364 fa8af9d58fb99ce639f60f9c267a0ea033056364 Nur Annisa <nur4nnis4@gmail.com> 1681661230 +0700	Branch: renamed refs/heads/withLaravelAPI to refs/heads/main
+fa8af9d58fb99ce639f60f9c267a0ea033056364 8c46f2c9c1bfd8651548a755d0a9f7652fa6f9fd Nur Annisa <nur4nnis4@gmail.com> 1682607895 +0700	commit: Add read and create for products and users
+8c46f2c9c1bfd8651548a755d0a9f7652fa6f9fd 2fcb0b994aabe7593856ad74c5f0347152616e2b Nur Annisa <nur4nnis4@gmail.com> 1682667172 +0700	commit (amend): Add read and create for products and users
+2fcb0b994aabe7593856ad74c5f0347152616e2b 9757f4b6c5d4e4f1e72ab08277a057d9decbfa15 Nur Annisa <nur4nnis4@gmail.com> 1682667535 +0700	commit (amend): Add read and create for products and users
+9757f4b6c5d4e4f1e72ab08277a057d9decbfa15 1209c8baa59093f7ea98496871d27672f250ff77 Nur Annisa <nur4nnis4@gmail.com> 1682668426 +0700	commit (merge): Merge branch 'main' of github.com:nur4nnis4/store_app
+1209c8baa59093f7ea98496871d27672f250ff77 085f9369a64e5768346611866dde465513640100 Nur Annisa <nur4nnis4@gmail.com> 1683006935 +0700	commit: Add auth bloc and auth error handling
+085f9369a64e5768346611866dde465513640100 4163532d9d0eea5ec3befd0afbd3070b984cc4b2 Nur Annisa <nur4nnis4@gmail.com> 1683020266 +0700	commit: Migrate from User Provider to User Bloc
+4163532d9d0eea5ec3befd0afbd3070b984cc4b2 81770373a135c56752bcf7d9126f5336d9b4dfb3 Nur Annisa <nur4nnis4@gmail.com> 1683463370 +0700	commit: Fix user data caching and Add Google Sign-In without Firebase

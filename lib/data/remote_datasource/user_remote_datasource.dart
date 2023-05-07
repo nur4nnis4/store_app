@@ -17,7 +17,7 @@ class UserRemoteDatasource {
   }) async {
     try {
       Response response =
-          await dio.patch('$baseUrl/register', data: {'name': name});
+          await dio.patch('$BASE_URL/register', data: {'name': name});
       Map<String, dynamic> responseJson = jsonDecode(response.toString());
       return UserModel.fromJson(responseJson['user']);
     } catch (e) {
@@ -29,9 +29,12 @@ class UserRemoteDatasource {
       {required String id, required String accessToken}) async {
     dio.options.headers['Authorization'] = 'Bearer $accessToken';
     try {
-      Response response = await dio.get('$baseUrl/users-account/$id');
+      Response response = await dio.get('$BASE_URL/users-account/$id');
       Map<String, dynamic> responseJson = jsonDecode(response.toString());
       return UserModel.fromJson(responseJson['data']);
+    } on DioError catch (e) {
+      throw ServerException(
+          message: jsonDecode(e.response.toString())['message']);
     } catch (e) {
       print(e.toString());
       throw ServerException(message: e.toString());

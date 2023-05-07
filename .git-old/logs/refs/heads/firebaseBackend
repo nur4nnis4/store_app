@@ -1,0 +1,4 @@
+0000000000000000000000000000000000000000 6b96755c85392dbe308ef20de76328f4fe04cdeb Nur Annisa <nur4nnis4@gmail.com> 1665731692 +0700	clone: from github.com:nur4nnis4/store_app.git
+6b96755c85392dbe308ef20de76328f4fe04cdeb ee24622b81faa5704ff2c643c491949aeaf0bc59 Nur Annisa <nur4nnis4@gmail.com> 1681656469 +0700	pull: Fast-forward
+ee24622b81faa5704ff2c643c491949aeaf0bc59 27b4e3b1b0d192af023f5714cb24e9893b028d55 Nur Annisa <nur4nnis4@gmail.com> 1681658736 +0700	rebase (finish): refs/heads/master onto 72e612f86965dfd5c97a6edf39da1e5b5dd5754b
+27b4e3b1b0d192af023f5714cb24e9893b028d55 27b4e3b1b0d192af023f5714cb24e9893b028d55 Nur Annisa <nur4nnis4@gmail.com> 1681660007 +0700	Branch: renamed refs/heads/master to refs/heads/firebaseBackend

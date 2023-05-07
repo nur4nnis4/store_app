@@ -48,14 +48,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthAuthenticated(
             authToken: authModel.token, userId: authModel.user.id));
       } on InputException catch (e) {
-        print(e.error);
         emit(AuthError.fromInputException(e));
       } on ServerException catch (e) {
-        print('Server : ${e.message}');
-
         emit(AuthError(errorMessage: e.message));
       } catch (e) {
-        print('Other : ${e.toString()}');
+        emit(AuthError(errorMessage: e.toString()));
+      }
+    });
+
+    on<ContinueWithGoogleEvent>((event, emit) async {
+      try {
+        emit(AuthLoading(message: 'Processing...'));
+        final authModel = await authRemoteDatasource.continueWithGoogle();
+        await authLocalDatasource.safeTokenAndUserId(
+            token: authModel.token, userId: authModel.user.id);
+        emit(AuthAuthenticated(
+            authToken: authModel.token, userId: authModel.user.id));
+      } on ServerException catch (e) {
+        emit(AuthError(errorMessage: e.message));
+      } catch (e) {
         emit(AuthError(errorMessage: e.toString()));
       }
     });
@@ -81,10 +92,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             await userLocalDatasource.deleteUser();
           }
           emit(AuthUnauthenticated());
+        } on ServerException catch (e) {
+          emit(AuthError(errorMessage: e.message));
         } catch (e) {
           emit(AuthError(errorMessage: e.toString()));
         }
       }
     });
+
+    //TODO : Implement Reset Password
+    on<ResetPasswordEvent>((event, emit) async {});
   }
 }

@@ -1,0 +1,19 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "origin"]
+	url = git@github.com:nur4nnis4/store_app.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "firebaseBackend"]
+	remote = origin
+	merge = refs/heads/master
+[branch "laravelAPI"]
+	remote = origin
+	merge = refs/heads/laravelAPI
+[pull]
+	rebase = false
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main

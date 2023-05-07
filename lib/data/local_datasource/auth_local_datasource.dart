@@ -1,11 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthLocalDatasource {
-  // AndroidOptions _getAndroidOptions() => const AndroidOptions(
-  //       encryptedSharedPreferences: true,
-  //     );
-  // final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
-
   final FlutterSecureStorage storage;
 
   AuthLocalDatasource({required this.storage});

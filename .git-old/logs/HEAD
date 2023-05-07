@@ -1,0 +1,58 @@
+0000000000000000000000000000000000000000 6b96755c85392dbe308ef20de76328f4fe04cdeb Nur Annisa <nur4nnis4@gmail.com> 1665731692 +0700	clone: from github.com:nur4nnis4/store_app.git
+6b96755c85392dbe308ef20de76328f4fe04cdeb 6b96755c85392dbe308ef20de76328f4fe04cdeb Nur Annisa <nur4nnis4@gmail.com> 1680951514 +0700	checkout: moving from master to laravelAPI
+6b96755c85392dbe308ef20de76328f4fe04cdeb c5c393ca1fd6826c249bb2b2c32c71e1d23aeebd Nur Annisa <nur4nnis4@gmail.com> 1681302015 +0700	commit: Migrate from firebase to Laravel API
+c5c393ca1fd6826c249bb2b2c32c71e1d23aeebd 6b96755c85392dbe308ef20de76328f4fe04cdeb Nur Annisa <nur4nnis4@gmail.com> 1681306153 +0700	checkout: moving from laravelAPI to master
+6b96755c85392dbe308ef20de76328f4fe04cdeb c5c393ca1fd6826c249bb2b2c32c71e1d23aeebd Nur Annisa <nur4nnis4@gmail.com> 1681306524 +0700	checkout: moving from master to laravelAPI
+c5c393ca1fd6826c249bb2b2c32c71e1d23aeebd c6a8abd751e8fda4874fcde5e0975a46607f7b62 Nur Annisa <nur4nnis4@gmail.com> 1681578377 +0700	pull: Fast-forward
+c6a8abd751e8fda4874fcde5e0975a46607f7b62 057292420181400392fa093bdd9d7918ff0c4d89 Nur Annisa <nur4nnis4@gmail.com> 1681586904 +0700	commit (amend): Add upload product
+057292420181400392fa093bdd9d7918ff0c4d89 057292420181400392fa093bdd9d7918ff0c4d89 Nur Annisa <nur4nnis4@gmail.com> 1681587587 +0700	checkout: moving from laravelAPI to origin/laravelAPI
+057292420181400392fa093bdd9d7918ff0c4d89 057292420181400392fa093bdd9d7918ff0c4d89 Nur Annisa <nur4nnis4@gmail.com> 1681587598 +0700	checkout: moving from origin/laravelAPI to laravelAPI
+057292420181400392fa093bdd9d7918ff0c4d89 057292420181400392fa093bdd9d7918ff0c4d89 Nur Annisa <nur4nnis4@gmail.com> 1681656082 +0700	checkout: moving from laravelAPI to main
+057292420181400392fa093bdd9d7918ff0c4d89 057292420181400392fa093bdd9d7918ff0c4d89 Nur Annisa <nur4nnis4@gmail.com> 1681656299 +0700	checkout: moving from main to main
+057292420181400392fa093bdd9d7918ff0c4d89 057292420181400392fa093bdd9d7918ff0c4d89 git stash <nur4nnis4@gmail.com> 1681656349 +0700	reset: moving to HEAD
+057292420181400392fa093bdd9d7918ff0c4d89 6b96755c85392dbe308ef20de76328f4fe04cdeb Nur Annisa <nur4nnis4@gmail.com> 1681656355 +0700	checkout: moving from main to master
+6b96755c85392dbe308ef20de76328f4fe04cdeb ee24622b81faa5704ff2c643c491949aeaf0bc59 Nur Annisa <nur4nnis4@gmail.com> 1681656469 +0700	pull: Fast-forward
+ee24622b81faa5704ff2c643c491949aeaf0bc59 057292420181400392fa093bdd9d7918ff0c4d89 Nur Annisa <nur4nnis4@gmail.com> 1681656512 +0700	checkout: moving from master to main
+057292420181400392fa093bdd9d7918ff0c4d89 a8420212aabb76d0ea5df0987d964d45b6d99561 Nur Annisa <nur4nnis4@gmail.com> 1681657129 +0700	cherry-pick: Update README.md
+a8420212aabb76d0ea5df0987d964d45b6d99561 62774c4588e055fb2c23164d13dc6132451f0e3d Nur Annisa <nur4nnis4@gmail.com> 1681657210 +0700	cherry-pick: Update README.md
+62774c4588e055fb2c23164d13dc6132451f0e3d 00e68e602f9e321f2642e43af5f93966203b0a76 Nur Annisa <nur4nnis4@gmail.com> 1681657225 +0700	cherry-pick: Update README.md
+00e68e602f9e321f2642e43af5f93966203b0a76 a8420212aabb76d0ea5df0987d964d45b6d99561 Nur Annisa <nur4nnis4@gmail.com> 1681657762 +0700	rebase (start): checkout HEAD~3
+a8420212aabb76d0ea5df0987d964d45b6d99561 30a2f23afab1f46b10cc643b3a17fcea5ed4501f Nur Annisa <nur4nnis4@gmail.com> 1681657762 +0700	rebase (squash): # This is a combination of 2 commits.
+30a2f23afab1f46b10cc643b3a17fcea5ed4501f f42625352f4a966255338d4ac7985d4624421bef Nur Annisa <nur4nnis4@gmail.com> 1681657762 +0700	rebase (squash): Update README.md
+f42625352f4a966255338d4ac7985d4624421bef f42625352f4a966255338d4ac7985d4624421bef Nur Annisa <nur4nnis4@gmail.com> 1681657762 +0700	rebase (finish): returning to refs/heads/main
+f42625352f4a966255338d4ac7985d4624421bef 00e68e602f9e321f2642e43af5f93966203b0a76 Nur Annisa <nur4nnis4@gmail.com> 1681657982 +0700	pull --rebase (start): checkout 00e68e602f9e321f2642e43af5f93966203b0a76
+00e68e602f9e321f2642e43af5f93966203b0a76 00e68e602f9e321f2642e43af5f93966203b0a76 Nur Annisa <nur4nnis4@gmail.com> 1681657982 +0700	pull --rebase (finish): returning to refs/heads/main
+00e68e602f9e321f2642e43af5f93966203b0a76 a8420212aabb76d0ea5df0987d964d45b6d99561 Nur Annisa <nur4nnis4@gmail.com> 1681658062 +0700	rebase (start): checkout HEAD~3
+a8420212aabb76d0ea5df0987d964d45b6d99561 7ae465efe64e26019b11f8334374bc3b14e4b966 Nur Annisa <nur4nnis4@gmail.com> 1681658062 +0700	rebase (squash): # This is a combination of 2 commits.
+7ae465efe64e26019b11f8334374bc3b14e4b966 41d987dfc74b01273f19ee27a783d9097dcb4695 Nur Annisa <nur4nnis4@gmail.com> 1681658062 +0700	rebase (squash): Update README.md
+41d987dfc74b01273f19ee27a783d9097dcb4695 41d987dfc74b01273f19ee27a783d9097dcb4695 Nur Annisa <nur4nnis4@gmail.com> 1681658062 +0700	rebase (finish): returning to refs/heads/main
+41d987dfc74b01273f19ee27a783d9097dcb4695 55b8f6c25bb4f9ecf9bc63dc498d156e126ad549 Nur Annisa <nur4nnis4@gmail.com> 1681658234 +0700	reset: moving to 55b8f6c
+55b8f6c25bb4f9ecf9bc63dc498d156e126ad549 41d987dfc74b01273f19ee27a783d9097dcb4695 Nur Annisa <nur4nnis4@gmail.com> 1681658280 +0700	pull: Fast-forward
+41d987dfc74b01273f19ee27a783d9097dcb4695 ee24622b81faa5704ff2c643c491949aeaf0bc59 Nur Annisa <nur4nnis4@gmail.com> 1681658507 +0700	checkout: moving from main to master
+ee24622b81faa5704ff2c643c491949aeaf0bc59 72e612f86965dfd5c97a6edf39da1e5b5dd5754b Nur Annisa <nur4nnis4@gmail.com> 1681658675 +0700	rebase (start): checkout HEAD~5
+72e612f86965dfd5c97a6edf39da1e5b5dd5754b ee24622b81faa5704ff2c643c491949aeaf0bc59 Nur Annisa <nur4nnis4@gmail.com> 1681658702 +0700	rebase (abort): updating HEAD
+ee24622b81faa5704ff2c643c491949aeaf0bc59 55b8f6c25bb4f9ecf9bc63dc498d156e126ad549 Nur Annisa <nur4nnis4@gmail.com> 1681658736 +0700	rebase (start): checkout HEAD~5
+55b8f6c25bb4f9ecf9bc63dc498d156e126ad549 7d773682dec623c92eb30f2fd6098f11b2a5f292 Nur Annisa <nur4nnis4@gmail.com> 1681658736 +0700	rebase (squash): # This is a combination of 2 commits.
+7d773682dec623c92eb30f2fd6098f11b2a5f292 3a84657174b98887e58bf69f582b8fd83da23b4c Nur Annisa <nur4nnis4@gmail.com> 1681658736 +0700	rebase (squash): # This is a combination of 3 commits.
+3a84657174b98887e58bf69f582b8fd83da23b4c 6b161a7f38bafb4d0d4f6c50835127d4f82eb53d Nur Annisa <nur4nnis4@gmail.com> 1681658736 +0700	rebase (squash): # This is a combination of 4 commits.
+6b161a7f38bafb4d0d4f6c50835127d4f82eb53d 27b4e3b1b0d192af023f5714cb24e9893b028d55 Nur Annisa <nur4nnis4@gmail.com> 1681658736 +0700	rebase (squash): Update README.md
+27b4e3b1b0d192af023f5714cb24e9893b028d55 27b4e3b1b0d192af023f5714cb24e9893b028d55 Nur Annisa <nur4nnis4@gmail.com> 1681658736 +0700	rebase (finish): returning to refs/heads/master
+27b4e3b1b0d192af023f5714cb24e9893b028d55 41d987dfc74b01273f19ee27a783d9097dcb4695 Nur Annisa <nur4nnis4@gmail.com> 1681658944 +0700	checkout: moving from master to main
+41d987dfc74b01273f19ee27a783d9097dcb4695 27b4e3b1b0d192af023f5714cb24e9893b028d55 Nur Annisa <nur4nnis4@gmail.com> 1681659121 +0700	checkout: moving from main to master
+27b4e3b1b0d192af023f5714cb24e9893b028d55 27b4e3b1b0d192af023f5714cb24e9893b028d55 Nur Annisa <nur4nnis4@gmail.com> 1681659202 +0700	checkout: moving from master to withLaravelAPI
+27b4e3b1b0d192af023f5714cb24e9893b028d55 46bad374fb3b7345ff875d36d82117b6c0936ade Nur Annisa <nur4nnis4@gmail.com> 1681659243 +0700	cherry-pick: Migrate from firebase to Laravel API
+46bad374fb3b7345ff875d36d82117b6c0936ade fa8af9d58fb99ce639f60f9c267a0ea033056364 Nur Annisa <nur4nnis4@gmail.com> 1681659380 +0700	cherry-pick: Add upload product
+fa8af9d58fb99ce639f60f9c267a0ea033056364 27b4e3b1b0d192af023f5714cb24e9893b028d55 Nur Annisa <nur4nnis4@gmail.com> 1681659716 +0700	checkout: moving from withLaravelAPI to master
+27b4e3b1b0d192af023f5714cb24e9893b028d55 0000000000000000000000000000000000000000 Nur Annisa <nur4nnis4@gmail.com> 1681660007 +0700	Branch: renamed refs/heads/master to refs/heads/firebaseBackend
+0000000000000000000000000000000000000000 27b4e3b1b0d192af023f5714cb24e9893b028d55 Nur Annisa <nur4nnis4@gmail.com> 1681660007 +0700	Branch: renamed refs/heads/master to refs/heads/firebaseBackend
+27b4e3b1b0d192af023f5714cb24e9893b028d55 fa8af9d58fb99ce639f60f9c267a0ea033056364 Nur Annisa <nur4nnis4@gmail.com> 1681660360 +0700	checkout: moving from firebaseBackend to withLaravelAPI
+fa8af9d58fb99ce639f60f9c267a0ea033056364 0000000000000000000000000000000000000000 Nur Annisa <nur4nnis4@gmail.com> 1681661230 +0700	Branch: renamed refs/heads/withLaravelAPI to refs/heads/main
+0000000000000000000000000000000000000000 fa8af9d58fb99ce639f60f9c267a0ea033056364 Nur Annisa <nur4nnis4@gmail.com> 1681661230 +0700	Branch: renamed refs/heads/withLaravelAPI to refs/heads/main
+fa8af9d58fb99ce639f60f9c267a0ea033056364 8c46f2c9c1bfd8651548a755d0a9f7652fa6f9fd Nur Annisa <nur4nnis4@gmail.com> 1682607895 +0700	commit: Add read and create for products and users
+8c46f2c9c1bfd8651548a755d0a9f7652fa6f9fd 2fcb0b994aabe7593856ad74c5f0347152616e2b Nur Annisa <nur4nnis4@gmail.com> 1682667172 +0700	commit (amend): Add read and create for products and users
+2fcb0b994aabe7593856ad74c5f0347152616e2b 2fcb0b994aabe7593856ad74c5f0347152616e2b Nur Annisa <nur4nnis4@gmail.com> 1682667532 +0700	reset: moving to HEAD
+2fcb0b994aabe7593856ad74c5f0347152616e2b 9757f4b6c5d4e4f1e72ab08277a057d9decbfa15 Nur Annisa <nur4nnis4@gmail.com> 1682667535 +0700	commit (amend): Add read and create for products and users
+9757f4b6c5d4e4f1e72ab08277a057d9decbfa15 1209c8baa59093f7ea98496871d27672f250ff77 Nur Annisa <nur4nnis4@gmail.com> 1682668426 +0700	commit (merge): Merge branch 'main' of github.com:nur4nnis4/store_app
+1209c8baa59093f7ea98496871d27672f250ff77 085f9369a64e5768346611866dde465513640100 Nur Annisa <nur4nnis4@gmail.com> 1683006935 +0700	commit: Add auth bloc and auth error handling
+085f9369a64e5768346611866dde465513640100 4163532d9d0eea5ec3befd0afbd3070b984cc4b2 Nur Annisa <nur4nnis4@gmail.com> 1683020266 +0700	commit: Migrate from User Provider to User Bloc
+4163532d9d0eea5ec3befd0afbd3070b984cc4b2 81770373a135c56752bcf7d9126f5336d9b4dfb3 Nur Annisa <nur4nnis4@gmail.com> 1683463370 +0700	commit: Fix user data caching and Add Google Sign-In without Firebase

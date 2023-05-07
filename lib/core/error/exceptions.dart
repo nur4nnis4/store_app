@@ -22,3 +22,9 @@ class InputException implements Exception {
 
   InputException({required this.message, required this.error});
 }
+
+class CacheException implements Exception {
+  final String message;
+
+  CacheException({required this.message});
+}

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_app/bloc/auth_bloc/auth_bloc.dart';
-import 'package:store_app/bloc/user_bloc/user_bloc.dart';
 import 'package:store_app/widgets/custom_snackbar.dart';
 import 'package:store_app/widgets/log_in_suggestion.dart';
 

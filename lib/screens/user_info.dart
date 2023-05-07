@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:store_app/bloc/auth_bloc/auth_bloc.dart';
 import 'package:store_app/bloc/user_bloc/user_bloc.dart';
 import 'package:store_app/core/constants/app_consntants.dart';
 import 'package:store_app/core/constants/assets_path.dart';
@@ -45,6 +44,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         return FlexibleSpaceBar(
                           background: Image.network(
                             state.userModel.photoUrl!,
+                            errorBuilder: (_, __, ___) => Image.asset(
+                                ImagePath.profilePlaceholder,
+                                fit: BoxFit.cover),
                             fit: BoxFit.cover,
                           ),
                         );

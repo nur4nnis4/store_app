@@ -17,7 +17,7 @@ class ProductRemoteDatasource {
 
     try {
       FormData formData = FormData.fromMap(await productModel.toJson());
-      Response response = await dio.post('$baseUrl/products', data: formData);
+      Response response = await dio.post('$BASE_URL/products', data: formData);
       final Map<String, dynamic> map = jsonDecode(response.toString());
       final Map<String, dynamic> productMap = map['data'];
       return ProductModel.fromJson(productMap);
@@ -28,7 +28,7 @@ class ProductRemoteDatasource {
 
   Future<List<ProductModel>> fetchProducts() async {
     try {
-      final Response response = await dio.get('$baseUrl/products');
+      final Response response = await dio.get('$BASE_URL/products');
       final Map<String, dynamic> array = jsonDecode(response.toString());
       final List<dynamic> list = array['data'];
       return list.map((element) => ProductModel.fromJson(element)).toList();
@@ -41,7 +41,7 @@ class ProductRemoteDatasource {
 
   Future<ProductModel> fetchProduct(String id) async {
     try {
-      final Response response = await dio.get('$baseUrl/products/$id');
+      final Response response = await dio.get('$BASE_URL/products/$id');
 
       final Map<String, dynamic> map = jsonDecode(response.toString());
       final Map<String, dynamic> productMap = map['data'];
@@ -53,7 +53,7 @@ class ProductRemoteDatasource {
 
   Future<List<ProductModel>> fetchPopularProducts() async {
     try {
-      final Response response = await dio.get('$baseUrl/products-popular');
+      final Response response = await dio.get('$BASE_URL/products-popular');
       final Map<String, dynamic> array = jsonDecode(response.toString());
       final List<dynamic> list = array['data'];
       return list.map((element) => ProductModel.fromJson(element)).toList();

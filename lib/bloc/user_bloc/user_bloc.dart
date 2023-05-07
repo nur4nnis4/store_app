@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:store_app/core/error/exceptions.dart';
 import 'package:store_app/core/network/network_info.dart';
 import 'package:store_app/data/local_datasource/user_local_datasource.dart';
 import 'package:store_app/data/remote_datasource/user_remote_datasource.dart';
@@ -29,12 +30,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           final userData = await userRemoteDatasource.fetchUser(
               id: event.userId, accessToken: event.accessToken);
           if (!kIsWeb) {
-            await userLocalDatasource.updateUser(userData);
+            await userLocalDatasource.insertOrUpdateUser(userData);
           }
           emit(UserLoaded(userModel: userData));
         } else {
           final userData = await userLocalDatasource.getUser();
           emit(UserLoaded(userModel: userData));
+        }
+      } on ServerException catch (e) {
+        if (!(state is UserLoaded)) {
+          emit(UserError(message: e.message));
         }
       } catch (e) {
         if (!(state is UserLoaded)) {

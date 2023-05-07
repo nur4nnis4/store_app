@@ -24,3 +24,5 @@ class ContinueWithGoogleEvent extends AuthEvent {}
 class GetAuthStatusEvent extends AuthEvent {}
 
 class SignOutEvent extends AuthEvent {}
+
+class ResetPasswordEvent extends AuthEvent {}
