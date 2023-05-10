@@ -40,7 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         userFormValidator.validate(
             name: event.name, email: event.email, password: event.password);
-        emit(AuthLoading(message: 'Processing...'));
+        emit(AuthLoading(message: 'Processing'));
         final authModel = await authRemoteDatasource.register(
             email: event.email, name: event.name, password: event.password);
         await authLocalDatasource.safeTokenAndUserId(
@@ -58,7 +58,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<ContinueWithGoogleEvent>((event, emit) async {
       try {
-        emit(AuthLoading(message: 'Processing...'));
+        emit(AuthLoading(message: 'Processing'));
         final authModel = await authRemoteDatasource.continueWithGoogle();
         await authLocalDatasource.safeTokenAndUserId(
             token: authModel.token, userId: authModel.user.id);
@@ -83,7 +83,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignOutEvent>((event, emit) async {
       if (state is AuthAuthenticated) {
         final current = state as AuthAuthenticated;
-        emit(SignOutLoading(message: 'Signing Out...'));
+        emit(SignOutLoading(message: 'Signing Out'));
 
         try {
           await authRemoteDatasource.signOut(current.authToken);

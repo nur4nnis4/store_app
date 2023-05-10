@@ -19,7 +19,7 @@ class CustomSnackbar {
             ),
             SizedBox(width: 10),
             Text(
-              text ?? ' Processing...',
+              text ?? ' Processing',
               style: TextStyle(
                   fontSize: 12,
                   color: Theme.of(context).colorScheme.background),

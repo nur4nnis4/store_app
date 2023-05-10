@@ -21,12 +21,3 @@ const mIconDelete = CupertinoIcons.multiply_square_fill;
 const mIconAdd = Icons.add_circle;
 const mIconRemove = Icons.remove_circle_sharp;
 const mTrashIcon = Icons.delete_outline;
-
-class MyButtonStyle {
-  static ButtonStyle disabledButton = ButtonStyle(
-    backgroundColor:
-        MaterialStateProperty.resolveWith((states) => Colors.grey[500]),
-    foregroundColor:
-        MaterialStateProperty.resolveWith((states) => Colors.black),
-  );
-}

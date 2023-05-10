@@ -39,12 +39,12 @@ dependencies:
   sqflite: ^2.2.0
   connectivity_plus: ^3.0.4
   flutter_bloc: 8.1.2
+  rxdart: ^0.27.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^2.0.5
-  freezed: ^2.3.2
 
 # The following section is specific to Flutter.
 flutter:

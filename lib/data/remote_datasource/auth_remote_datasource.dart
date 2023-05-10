@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:store_app/core/constants/.apiconfig.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:store_app/core/config/apiconfig_example.dart';
 import 'package:store_app/core/error/exceptions.dart';
 import 'package:store_app/models/auth_model.dart';
 

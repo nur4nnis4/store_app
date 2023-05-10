@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:store_app/providers/base_provider.dart';
-import 'package:store_app/providers/product_provider.dart';
-import 'package:store_app/widgets/feeds_product.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_app/bloc/product_bloc/fetch_products_bloc/fetch_products_bloc.dart';
+import 'package:store_app/widgets/product_card.dart';
 import 'package:store_app/widgets/my_badge.dart';
 
 class FeedsScreen extends StatelessWidget {
@@ -20,35 +19,29 @@ class FeedsScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
       ),
-      // body: FeedsProduct(),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 8),
-        child: Consumer<ProductProvider>(builder: (_, productProvider, __) {
-          if (productProvider.status[productProvider.getPopularProductsTask] ==
-              Status.Error) {
-            return Text('Error: error');
-          } else if (productProvider
-                  .status[productProvider.getPopularProductsTask] ==
-              Status.Done) {
-            return GridView.count(
-              crossAxisCount: 2,
-              childAspectRatio: (MediaQuery.of(context).size.width) /
-                  (MediaQuery.of(context).size.width + 184),
-              mainAxisSpacing: 8,
-              children: List.generate(
-                productProvider.products.length,
-                (index) => ChangeNotifierProvider.value(
-                  value: productProvider.products[index],
-                  child: Center(
-                    child: FeedsProduct(),
-                  ),
+        child: BlocBuilder<FetchProductsBloc, FetchProductsState>(
+          builder: (context, state) {
+            if (state is FetchProductsError) {
+              return Text('Error: ${state.message}');
+            } else if (state is FetchProductsLoaded) {
+              return GridView.count(
+                crossAxisCount: 2,
+                childAspectRatio: (MediaQuery.of(context).size.width) /
+                    (MediaQuery.of(context).size.width + 184),
+                mainAxisSpacing: 8,
+                children: List.generate(
+                  state.products.length,
+                  (index) => Center(
+                      child: ProductCard(product: state.products[index])),
                 ),
-              ),
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        }),
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
       ),
     );
   }

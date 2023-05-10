@@ -28,21 +28,22 @@ class ProductModel with ChangeNotifier {
       this.isPopular = false,
       this.seller});
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
-        id: json['id'],
-        name: json['name'],
-        price: double.parse(json['price']),
-        brand: json['brand'],
-        description: json['description'],
-        imageUrl: json['image_url'],
-        category: json['category'],
-        stock: json['stock'] as int,
-        sales: json['sales'] as int,
-        isPopular: json['is_popular'],
-        seller: json['seller'] != null
-            ? SellerModel.fromJson(json['seller'])
-            : null,
-      );
+  factory ProductModel.fromJson(Map<String, dynamic> json) {
+    return ProductModel(
+      id: json['id'],
+      name: json['name'],
+      price: double.parse(json['price']),
+      brand: json['brand'],
+      description: json['description'],
+      imageUrl: json['image_url'],
+      category: json['category'],
+      stock: json['stock'] as int,
+      sales: json['sales'] as int,
+      isPopular: json['is_popular'],
+      seller:
+          json['seller'] != null ? SellerModel.fromJson(json['seller']) : null,
+    );
+  }
   Future<Map<String, dynamic>> toJson() async => {
         "name": name,
         "price": price,
@@ -63,13 +64,13 @@ class SellerModel {
     required this.id,
     required this.name,
     required this.photoUrl,
-    required this.address,
+    this.address,
   });
 
   final String id;
   final String name;
   final String photoUrl;
-  final String address;
+  final String? address;
 
   factory SellerModel.fromJson(Map<String, dynamic> json) => SellerModel(
         id: json["id"],
@@ -77,13 +78,6 @@ class SellerModel {
         photoUrl: json["photo_url"],
         address: json["address"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "photo_url": photoUrl,
-        "address": address,
-      };
 }
 
  // List<ProductModel> _products = [

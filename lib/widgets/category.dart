@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/core/constants/route_name.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_app/bloc/product_bloc/fetch_products_by_category/fetch_products_by_category_bloc.dart';
+import 'package:store_app/core/routes/route_name.dart';
 import 'package:store_app/models/category_model.dart';
 
 class Category extends StatelessWidget {
@@ -9,8 +11,12 @@ class Category extends StatelessWidget {
   Widget build(BuildContext context) {
     double _imageSize = 50;
     return InkWell(
-      onTap: () => Navigator.pushNamed(context, RouteName.categoryScreen,
-          arguments: category.title),
+      onTap: () {
+        BlocProvider.of<FetchProductsByCategoryBloc>(context)
+            .add(FetchProductsByCategoryEvent(productCategory: category.name));
+        Navigator.pushNamed(context, RouteName.categoryScreen,
+            arguments: category.name);
+      },
       child: Container(
         width: _imageSize + 15,
         child: Column(
@@ -32,7 +38,7 @@ class Category extends StatelessWidget {
             ),
             SizedBox(height: 4),
             Text(
-              category.title,
+              category.name,
               style: Theme.of(context).textTheme.caption,
             ),
           ],

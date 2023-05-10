@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:store_app/core/constants/app_consntants.dart';
-import 'package:store_app/providers/auth_provider.dart';
+import 'package:store_app/core/constants/icons.dart';
 import 'package:store_app/utils/ui/my_border.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -12,24 +10,12 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  bool _isLoading = false;
-  String _noticeText = '';
-  String _email = '';
+  late TextEditingController emailController = TextEditingController();
   final _formKey = new GlobalKey<FormState>();
   void _submitForm() async {
     final isValid = _formKey.currentState!.validate();
     if (isValid) {
       _formKey.currentState!.save();
-      setState(() => _isLoading = true);
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      authProvider
-          .resetPassword(email: _email)
-          .then((value) => setState(() {
-                _noticeText =
-                    'A link to change your password  has been sent to your email, please check.';
-              }))
-          .catchError((e) => setState(() => _noticeText = e.message))
-          .whenComplete(() => setState(() => _isLoading = false));
     }
   }
 
@@ -50,6 +36,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 child: TextFormField(
                   key: ValueKey('Email'),
+                  controller: emailController,
                   validator: (value) => value!.isEmpty || !value.contains('@')
                       ? 'Please enter a valid email address'
                       : null,
@@ -65,9 +52,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     filled: true,
                     fillColor: Theme.of(context).cardColor,
                   ),
-                  onChanged: (_) => setState(() => _noticeText = ''),
                   onEditingComplete: _submitForm,
-                  onSaved: (value) => _email = value!,
                 ),
               ),
 
@@ -77,21 +62,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () => _submitForm(),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _isLoading
-                            ? CircularProgressIndicator(
-                                color: Colors.white,
-                              )
-                            : Text('Change Password'),
-                      ]),
+                  child: Text('Change Password'),
                 ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                child: Text(_noticeText),
               ),
             ],
           ),

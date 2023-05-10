@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:store_app/bloc/auth_bloc/auth_bloc.dart';
+import 'package:store_app/bloc/product_bloc/fetch_products_bloc/fetch_products_bloc.dart';
 import 'package:store_app/bloc/user_bloc/user_bloc.dart';
-import 'package:store_app/providers/product_provider.dart';
 import 'package:store_app/screens/bottom_bar.dart';
 import 'package:store_app/screens/upload_product.dart';
 
@@ -11,9 +10,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PageController controller = PageController(initialPage: 1);
-    Provider.of<ProductProvider>(context, listen: false).fetchPopularProducts();
-    Provider.of<ProductProvider>(context, listen: false)
-        .fetchProductsProvider();
+    context.read<FetchProductsBloc>().add(FetchProductsEvent());
     context.read<AuthBloc>().add(GetAuthStatusEvent());
 
     return BlocListener<AuthBloc, AuthState>(

@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:store_app/models/product_model.dart';
-import 'package:store_app/providers/product_provider.dart';
-import 'package:store_app/widgets/feeds_product.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_app/bloc/product_bloc/fetch_products_by_category/fetch_products_by_category_bloc.dart';
+import 'package:store_app/widgets/product_card.dart';
 
 class CategoryScreen extends StatelessWidget {
+  final String productCategory;
+
+  const CategoryScreen({Key? key, required this.productCategory})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final productProvider =
-        Provider.of<ProductProvider>(context, listen: false);
-    final _title = ModalRoute.of(context)!.settings.arguments as String;
-    List<ProductModel> _productList;
-    _title.toLowerCase().contains('popular')
-        ? _productList = productProvider.popularProducts
-        : _productList = productProvider.findByCategory(_title);
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _title,
+          productCategory,
           style: TextStyle(
             color: Theme.of(context).primaryColor,
           ),
@@ -25,23 +21,28 @@ class CategoryScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
       ),
-      // body: FeedsProduct(),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 8),
-        child: GridView.count(
-          crossAxisCount: 2,
-          childAspectRatio: (MediaQuery.of(context).size.width) /
-              (MediaQuery.of(context).size.width + 190),
-          mainAxisSpacing: 8,
-          children: List.generate(
-            _productList.length,
-            (index) => ChangeNotifierProvider.value(
-              value: _productList[index],
-              child: Center(
-                child: FeedsProduct(),
-              ),
-            ),
-          ),
+        child: BlocBuilder<FetchProductsByCategoryBloc,
+            FetchProductsByCategoryState>(
+          builder: (context, state) {
+            if (state is FetchProductsByCategoryError) {
+              return Text('Error: ${state.message}');
+            } else if (state is FetchProductsByCategoryLoaded) {
+              return GridView.count(
+                crossAxisCount: 2,
+                childAspectRatio: (MediaQuery.of(context).size.width) /
+                    (MediaQuery.of(context).size.width + 190),
+                mainAxisSpacing: 8,
+                children: List.generate(
+                  state.products.length,
+                  (index) => ProductCard(product: state.products[index]),
+                ),
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
         ),
       ),
     );

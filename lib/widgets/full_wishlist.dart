@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/core/constants/route_name.dart';
+import 'package:store_app/core/routes/route_name.dart';
 import 'package:store_app/models/wishlist_model.dart';
 import 'package:store_app/providers/wishlist_provider.dart';
 import 'package:store_app/widgets/my_button.dart';

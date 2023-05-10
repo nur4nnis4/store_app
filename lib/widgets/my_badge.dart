@@ -1,8 +1,8 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/core/constants/app_consntants.dart';
-import 'package:store_app/core/constants/route_name.dart';
+import 'package:store_app/core/constants/icons.dart';
+import 'package:store_app/core/routes/route_name.dart';
 import 'package:store_app/providers/cart_provider.dart';
 
 class MyBadge {

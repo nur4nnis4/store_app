@@ -1,35 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/core/constants/app_consntants.dart';
+import 'package:store_app/core/constants/icons.dart';
 import 'package:store_app/models/cart_model.dart';
 import 'package:store_app/models/product_model.dart';
 import 'package:store_app/models/wishlist_model.dart';
 import 'package:store_app/providers/cart_provider.dart';
-import 'package:store_app/providers/product_provider.dart';
 import 'package:store_app/providers/wishlist_provider.dart';
 import 'package:store_app/widgets/custom_snackbar.dart';
 import 'package:store_app/widgets/my_badge.dart';
-import 'package:store_app/widgets/recommendation.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  const ProductDetailScreen({Key? key}) : super(key: key);
+  final ProductModel product;
+
+  const ProductDetailScreen({Key? key, required this.product})
+      : super(key: key);
 
   @override
-  _ProductDetailScreenState createState() => _ProductDetailScreenState();
+  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
-    final _productId = ModalRoute.of(context)!.settings.arguments as String;
-    final _productProvider =
-        Provider.of<ProductProvider>(context, listen: false);
-    final _product = _productProvider.findById(_productId);
-
-    List<ProductModel> _productRecommendation =
-        _productProvider.findByCategory(_product.category);
     return Scaffold(
-      bottomSheet: _bottomSheet(_product),
+      bottomSheet: _bottomSheet(widget.product),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -40,9 +34,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             flexibleSpace: FlexibleSpaceBar(
                 background: Container(
               color: Colors.white,
-              child: Image.network(
-                _product.imageUrl,
-                fit: BoxFit.contain,
+              child: Hero(
+                tag: widget.product.id,
+                child: Image.network(
+                  widget.product.imageUrl,
+                  fit: BoxFit.contain,
+                ),
               ),
             )),
             actions: [MyBadge.cart(context)],
@@ -65,7 +62,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           //Product Name
 
                           Text(
-                            _product.name,
+                            widget.product.name,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: Theme.of(context).textTheme.headline4,
@@ -75,7 +72,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           //Product Price
 
                           Text(
-                            '\$ ${_product.price}',
+                            '\$ ${widget.product.price}',
                             style: TextStyle(
                               color: Theme.of(context).primaryColor,
                               fontSize: 16,
@@ -91,27 +88,27 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text('Sales ${_product.sales}'),
+                              Text('Sales ${widget.product.sales}'),
                               Consumer<WishlistProvider>(
                                 builder: (_, wishlistProvider, __) =>
                                     IconButton(
                                   onPressed: () {
                                     wishlistProvider
                                         .addAndRemoveItem(WishlistModel(
-                                      id: _productId,
-                                      imageUrl: _product.imageUrl,
-                                      name: _product.name,
-                                      price: _product.price,
-                                      sales: _product.sales,
+                                      id: widget.product.id,
+                                      imageUrl: widget.product.imageUrl,
+                                      name: widget.product.name,
+                                      price: widget.product.price,
+                                      sales: widget.product.sales,
                                     ));
                                   },
-                                  icon:
-                                      wishlistProvider.isInWishList(_product.id)
-                                          ? Icon(
-                                              mWishListIconFill,
-                                              color: Colors.redAccent,
-                                            )
-                                          : Icon(mWishListIcon),
+                                  icon: wishlistProvider
+                                          .isInWishList(widget.product.id)
+                                      ? Icon(
+                                          mWishListIconFill,
+                                          color: Colors.redAccent,
+                                        )
+                                      : Icon(mWishListIcon),
                                   splashRadius: 20,
                                 ),
                               ),
@@ -130,43 +127,45 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _detailsRow('Brand', _product.brand),
-                            _detailsRow('Quatity', _product.stock.toString()),
-                            _detailsRow('Category', _product.category),
-                            _detailsRow('Popularity',
-                                _product.isPopular ? 'Popular' : 'Not Popular'),
+                            _detailsRow('Brand', widget.product.brand),
+                            _detailsRow(
+                                'Quatity', widget.product.stock.toString()),
+                            _detailsRow('Category', widget.product.category),
+                            _detailsRow(
+                                'Popularity',
+                                widget.product.isPopular
+                                    ? 'Popular'
+                                    : 'Not Popular'),
 
                             SizedBox(height: 10),
 
                             // Description
 
-                            Text(_product.description),
+                            Text(widget.product.description),
                           ],
                         ),
                       ),
                     ),
 
-                    //Product Recommendations
+                    //TODO: FIX Product Recommendations
 
-                    _sectionContainer(
-                      'Recommendations',
-                      Container(
-                        height: MediaQuery.of(context).size.width * 0.7,
-                        width: MediaQuery.of(context).size.width,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            padding: EdgeInsets.symmetric(horizontal: 6),
-                            itemCount: _productRecommendation.length,
-                            itemBuilder: (context, index) =>
-                                ChangeNotifierProvider.value(
-                                  value: _productRecommendation[index],
-                                  child: Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 4),
-                                      child: Recommendation()),
-                                )),
-                      ),
-                    ),
+                    // _sectionContainer(
+                    //   'Recommendations',
+                    //   Container(
+                    //     height: MediaQuery.of(context).size.width * 0.7,
+                    //     width: MediaQuery.of(context).size.width,
+                    //     child: ListView.builder(
+                    //       scrollDirection: Axis.horizontal,
+                    //       padding: EdgeInsets.symmetric(horizontal: 6),
+                    //       itemCount: _productRecommendation.length,
+                    //       itemBuilder: (context, index) => Container(
+                    //           margin: EdgeInsets.symmetric(horizontal: 4),
+                    //           child: Recommendation(
+                    //             product: _productRecommendation[index],
+                    //           )),
+                    //     ),
+                    //   ),
+                    // ),
 
                     _sectionContainer(
                         'Reviews',

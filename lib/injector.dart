@@ -4,6 +4,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:store_app/bloc/auth_bloc/auth_bloc.dart';
+import 'package:store_app/bloc/product_bloc/fetch_products_bloc/fetch_products_bloc.dart';
+import 'package:store_app/bloc/product_bloc/fetch_products_by_category/fetch_products_by_category_bloc.dart';
+import 'package:store_app/bloc/product_bloc/search_product_bloc/search_product_bloc.dart';
+import 'package:store_app/bloc/product_bloc/upload_product_bloc/upload_product_bloc.dart';
 import 'package:store_app/bloc/user_bloc/user_bloc.dart';
 import 'package:store_app/core/network/network_info.dart';
 import 'package:store_app/data/local_datasource/auth_local_datasource.dart';
@@ -11,8 +15,6 @@ import 'package:store_app/data/local_datasource/user_local_datasource.dart';
 import 'package:store_app/data/remote_datasource/auth_remote_datasource.dart';
 import 'package:store_app/data/remote_datasource/product_remote_datasource.dart';
 import 'package:store_app/data/remote_datasource/user_remote_datasource.dart';
-import 'package:store_app/providers/auth_provider.dart';
-import 'package:store_app/providers/product_provider.dart';
 import 'package:store_app/utils/ui/user_form_validator.dart';
 
 final sLocator = GetIt.instance;
@@ -33,18 +35,22 @@ void init() {
         userLocalDatasource: sLocator(),
         networkInfo: sLocator(),
       ));
+  sLocator.registerFactory(() => FetchProductsBloc(
+        productRemoteDatasource: sLocator(),
+      ));
+  sLocator.registerFactory(() => UploadProductBloc(
+        productRemoteDatasource: sLocator(),
+      ));
+  sLocator.registerFactory(() => SearchProductBloc(
+        productRemoteDatasource: sLocator(),
+      ));
+  sLocator.registerFactory(() => FetchProductsByCategoryBloc(
+        productRemoteDatasource: sLocator(),
+      ));
 
   //Utils
 
   sLocator.registerLazySingleton(() => UserFormValidator());
-
-  // Providers
-  sLocator.registerFactory(() => AuthProvider(
-      userLocalDatasource: sLocator(),
-      authRemoteDatasource: sLocator(),
-      authLocalDatasource: sLocator()));
-  sLocator.registerFactory(
-      () => ProductProvider(productRemoteDatasource: sLocator()));
 
   // Datasources
   sLocator.registerLazySingleton(

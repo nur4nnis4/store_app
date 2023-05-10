@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:store_app/core/constants/.apiconfig.dart';
+import 'package:store_app/core/config/apiconfig_example.dart';
 import 'package:store_app/core/error/exceptions.dart';
 import 'package:store_app/models/product_model.dart';
 
@@ -33,8 +33,30 @@ class ProductRemoteDatasource {
       final List<dynamic> list = array['data'];
       return list.map((element) => ProductModel.fromJson(element)).toList();
     } catch (e) {
-      print(e.toString());
+      throw ServerException(message: e.toString());
+    }
+  }
 
+  Future<List<ProductModel>> fetchProductsByCategory(String category) async {
+    try {
+      final Response response =
+          await dio.get('$BASE_URL/products/category/$category');
+      final Map<String, dynamic> array = jsonDecode(response.toString());
+      final List<dynamic> list = array['data'];
+      return list.map((element) => ProductModel.fromJson(element)).toList();
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  Future<List<ProductModel>> searchProducts(String keyword) async {
+    try {
+      final Response response =
+          await dio.get('$BASE_URL/products/search/$keyword');
+      final Map<String, dynamic> array = jsonDecode(response.toString());
+      final List<dynamic> list = array['data'];
+      return list.map((element) => ProductModel.fromJson(element)).toList();
+    } catch (e) {
       throw ServerException(message: e.toString());
     }
   }

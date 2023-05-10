@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/core/constants/app_consntants.dart';
+import 'package:store_app/core/constants/icons.dart';
 import 'package:store_app/models/cart_model.dart';
+import 'package:store_app/models/product_model.dart';
 import 'package:store_app/models/wishlist_model.dart';
 import 'package:store_app/providers/cart_provider.dart';
-import 'package:store_app/providers/product_provider.dart';
 import 'package:store_app/providers/wishlist_provider.dart';
 import 'package:store_app/widgets/my_button.dart';
 
-class FeedsDialog extends StatelessWidget {
-  final String productId;
-  const FeedsDialog({Key? key, this.productId = ''}) : super(key: key);
+class ProductDialog extends StatelessWidget {
+  final ProductModel product;
+  const ProductDialog({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _product = Provider.of<ProductProvider>(context).findById(productId);
     return Dialog(
       backgroundColor: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -31,7 +30,7 @@ class FeedsDialog extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         image: DecorationImage(
-                            image: NetworkImage(_product.imageUrl),
+                            image: NetworkImage(product.imageUrl),
                             fit: BoxFit.contain)),
                   ),
                   Positioned(
@@ -59,14 +58,14 @@ class FeedsDialog extends StatelessWidget {
                           builder: (_, wishlistProvider, __) => InkWell(
                             onTap: () =>
                                 wishlistProvider.addAndRemoveItem(WishlistModel(
-                              id: _product.id,
-                              imageUrl: _product.imageUrl,
-                              name: _product.name,
-                              price: _product.price,
-                              sales: _product.sales,
+                              id: product.id,
+                              imageUrl: product.imageUrl,
+                              name: product.name,
+                              price: product.price,
+                              sales: product.sales,
                             )),
                             child: Center(
-                              child: wishlistProvider.isInWishList(productId)
+                              child: wishlistProvider.isInWishList(product.id)
                                   ? Icon(mWishListIconFill,
                                       color: Colors.redAccent)
                                   : Icon(mWishListIcon),
@@ -83,13 +82,13 @@ class FeedsDialog extends StatelessWidget {
                           builder: (_, cartProvider, __) => InkWell(
                             onTap: () =>
                                 cartProvider.addAndRemoveItem(CartModel(
-                              id: _product.id,
-                              imageUrl: _product.imageUrl,
-                              name: _product.name,
-                              price: _product.price,
+                              id: product.id,
+                              imageUrl: product.imageUrl,
+                              name: product.name,
+                              price: product.price,
                             )),
                             child: Center(
-                              child: cartProvider.isInCart(productId)
+                              child: cartProvider.isInCart(product.id)
                                   ? Icon(mRemoveCartIcon,
                                       color: Theme.of(context).primaryColor)
                                   : Icon(mAddCartIcon),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/core/constants/app_consntants.dart';
+import 'package:store_app/core/constants/icons.dart';
 import 'package:store_app/screens/feeds.dart';
 import 'package:store_app/screens/home.dart';
 import 'package:store_app/screens/search.dart';

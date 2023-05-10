@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:store_app/core/constants/route_name.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_app/bloc/product_bloc/fetch_products_bloc/fetch_products_bloc.dart';
+import 'package:store_app/core/routes/route_name.dart';
 import 'package:store_app/models/brand_model.dart';
 import 'package:store_app/models/carousel_model.dart';
 import 'package:store_app/models/category_model.dart';
-import 'package:store_app/providers/base_provider.dart';
-import 'package:store_app/providers/product_provider.dart';
 import 'package:store_app/widgets/category.dart';
 import 'package:store_app/widgets/my_badge.dart';
 import 'package:store_app/widgets/my_carousel.dart';
 import 'package:store_app/widgets/popular_brand.dart';
-import 'package:store_app/widgets/popular_product.dart';
+import 'package:store_app/widgets/popular_product_card.dart';
 import 'package:store_app/widgets/recommendation.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -87,27 +86,20 @@ class HomeScreen extends StatelessWidget {
                     () => Navigator.pushNamed(context, RouteName.categoryScreen,
                         arguments: 'Popular Products ')),
 
-                Consumer<ProductProvider>(
-                  builder: (_, productProvider, __) {
-                    if (productProvider
-                            .status[productProvider.getPopularProductsTask] ==
-                        Status.Error) {
-                      return Text('Error: error');
-                    } else if (productProvider
-                            .status[productProvider.getPopularProductsTask] ==
-                        Status.Done) {
+                BlocBuilder<FetchProductsBloc, FetchProductsState>(
+                  builder: (context, state) {
+                    if (state is FetchProductsError) {
+                      return Text('Error: ${state.message}');
+                    } else if (state is FetchProductsLoaded) {
                       return Container(
                         width: MediaQuery.of(context).size.width,
                         height: 200,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           padding: EdgeInsets.symmetric(horizontal: 8),
-                          itemCount: productProvider.popularProducts.length,
-                          itemBuilder: (context, index) =>
-                              ChangeNotifierProvider.value(
-                            value: productProvider.popularProducts[index],
-                            child: PopularProduct(),
-                          ),
+                          itemCount: state.popularProducts.length,
+                          itemBuilder: (_, index) => PopularProductCard(
+                              popularProduct: state.popularProducts[index]),
                         ),
                       );
                     } else {
@@ -116,17 +108,15 @@ class HomeScreen extends StatelessWidget {
                   },
                 ),
 
+                // Recommendations Section
+
                 _sectionTitle(context, 'RECOMMENDATIONS', () {}),
 
-                Consumer<ProductProvider>(
-                  builder: (_, productProvider, __) {
-                    if (productProvider
-                            .status[productProvider.getProductsTask] ==
-                        Status.Error) {
-                      return Text('Error: error');
-                    } else if (productProvider
-                            .status[productProvider.getProductsTask] ==
-                        Status.Done) {
+                BlocBuilder<FetchProductsBloc, FetchProductsState>(
+                  builder: (context, state) {
+                    if (state is FetchProductsError) {
+                      return Text('Error: ${state.message}');
+                    } else if (state is FetchProductsLoaded) {
                       return GridView.count(
                         crossAxisCount: 2,
                         childAspectRatio: (MediaQuery.of(context).size.width) /
@@ -134,13 +124,10 @@ class HomeScreen extends StatelessWidget {
                         mainAxisSpacing: 8,
                         shrinkWrap: true,
                         children: List.generate(
-                          productProvider.products.length,
-                          (index) => ChangeNotifierProvider.value(
-                            value: productProvider.products[index],
-                            child: Center(
-                              child: Recommendation(),
-                            ),
-                          ),
+                          state.products.length,
+                          (index) => Center(
+                              child: Recommendation(
+                                  product: state.products[index])),
                         ),
                       );
                     } else {
