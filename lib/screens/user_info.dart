@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_app/bloc/auth_bloc/auth_bloc.dart';
 import 'package:store_app/bloc/user_bloc/user_bloc.dart';
 import 'package:store_app/core/constants/icons.dart';
 import 'package:store_app/core/constants/assets_path.dart';
 import 'package:store_app/core/routes/route_name.dart';
-import 'package:store_app/providers/theme_change_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:store_app/utils/ui/my_alert_dialog.dart';
+import 'package:store_app/widgets/my_alert_dialog.dart';
 
 class UserInfoScreen extends StatefulWidget {
   @override
@@ -26,8 +26,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _themeChange = Provider.of<ThemeChangeProvider>(context);
-
     return Scaffold(
       body: Stack(
         children: [
@@ -148,20 +146,18 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       Card(
                         child: Column(
                           children: [
-                            SwitchListTile(
-                              title: const Text('Dark Theme'),
-                              secondary: _customIcon(Icons.dark_mode),
-                              value: _themeChange.isDarkTheme,
-                              onChanged: (bool value) {
-                                _themeChange.isDarkTheme = value;
-                              },
-                            ),
                             ListTile(
                                 title: Text('Sign Out'),
                                 leading:
                                     _customIcon(Icons.exit_to_app_outlined),
                                 onTap: () {
-                                  MyAlertDialog.signOut(context);
+                                  MyAlertDialog.signOut(context,
+                                      onSignOutTap: () {
+                                    Provider.of<AuthBloc>(context,
+                                            listen: false)
+                                        .add(SignOutEvent());
+                                    Navigator.pop(context);
+                                  });
                                 }),
                           ],
                         ),

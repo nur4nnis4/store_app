@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/core/constants/icons.dart';
-import 'package:store_app/utils/ui/my_border.dart';
+import 'package:store_app/widgets/my_border.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);

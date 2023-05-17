@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:store_app/bloc/auth_bloc/auth_bloc.dart';
 import 'package:store_app/core/constants/assets_path.dart';
 import 'package:store_app/core/routes/route_name.dart';
-import 'package:store_app/utils/ui/my_border.dart';
+import 'package:store_app/widgets/my_border.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);

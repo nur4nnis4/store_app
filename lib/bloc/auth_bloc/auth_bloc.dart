@@ -5,7 +5,7 @@ import 'package:store_app/core/error/exceptions.dart';
 import 'package:store_app/data/local_datasource/auth_local_datasource.dart';
 import 'package:store_app/data/local_datasource/user_local_datasource.dart';
 import 'package:store_app/data/remote_datasource/auth_remote_datasource.dart';
-import 'package:store_app/utils/ui/user_form_validator.dart';
+import 'package:store_app/utils/user_form_validator.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

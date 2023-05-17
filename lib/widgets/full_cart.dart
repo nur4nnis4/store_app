@@ -4,7 +4,7 @@ import 'package:store_app/core/constants/icons.dart';
 import 'package:store_app/core/routes/route_name.dart';
 import 'package:store_app/models/cart_model.dart';
 import 'package:store_app/providers/cart_provider.dart';
-import 'package:store_app/utils/ui/my_alert_dialog.dart';
+import 'package:store_app/widgets/my_alert_dialog.dart';
 import 'package:store_app/widgets/my_button.dart';
 
 class FullCart extends StatefulWidget {

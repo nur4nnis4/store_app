@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:store_app/bloc/auth_bloc/auth_bloc.dart';
-import 'package:store_app/utils/ui/my_border.dart';
+import 'package:store_app/widgets/my_border.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);

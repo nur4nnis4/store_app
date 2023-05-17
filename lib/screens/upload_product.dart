@@ -6,8 +6,8 @@ import 'package:store_app/bloc/product_bloc/fetch_products_bloc/fetch_products_b
 import 'package:store_app/bloc/product_bloc/upload_product_bloc/upload_product_bloc.dart';
 import 'package:store_app/models/category_model.dart';
 import 'package:store_app/models/product_model.dart';
-import 'package:store_app/utils/ui/my_alert_dialog.dart';
-import 'package:store_app/utils/ui/my_border.dart';
+import 'package:store_app/widgets/my_alert_dialog.dart';
+import 'package:store_app/widgets/my_border.dart';
 import 'package:store_app/authenticate.dart';
 import 'package:store_app/widgets/custom_snackbar.dart';
 import 'package:store_app/widgets/image_preview.dart';

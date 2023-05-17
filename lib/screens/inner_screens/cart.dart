@@ -5,7 +5,7 @@ import 'package:store_app/providers/cart_provider.dart';
 import 'package:store_app/authenticate.dart';
 import 'package:store_app/widgets/empty_cart.dart';
 import 'package:store_app/widgets/full_cart.dart';
-import 'package:store_app/utils/ui/my_alert_dialog.dart';
+import 'package:store_app/widgets/my_alert_dialog.dart';
 
 class CartScreen extends StatefulWidget {
   @override
