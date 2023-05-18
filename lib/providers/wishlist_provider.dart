@@ -6,7 +6,7 @@ class WishlistProvider with ChangeNotifier {
 
   Map<String, WishlistModel> get getwishListItems => _wishListItems;
 
-  void addAndRemoveItem(WishlistModel wishlistModel) {
+  void addOrRemoveItem(WishlistModel wishlistModel) {
     isInWishList(wishlistModel.id)
         ? removeWishlistItem(wishlistModel.id)
         : _wishListItems.putIfAbsent(wishlistModel.id, () => wishlistModel);

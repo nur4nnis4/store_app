@@ -94,7 +94,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     IconButton(
                                   onPressed: () {
                                     wishlistProvider
-                                        .addAndRemoveItem(WishlistModel(
+                                        .addOrRemoveItem(WishlistModel(
                                       id: widget.product.id,
                                       imageUrl: widget.product.imageUrl,
                                       name: widget.product.name,
@@ -238,11 +238,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 content: 'Removed from cart'));
                       }
                     : () {
-                        _cartProvider.addAndRemoveItem(CartModel(
+                        _cartProvider.addOrRemoveItem(CartModel(
                             id: product.id,
                             imageUrl: product.imageUrl,
                             name: product.name,
-                            price: product.price));
+                            price: product.price,
+                            quantity: 1));
                         ScaffoldMessenger.of(context).showSnackBar(
                             CustomSnackbar.snackbarAlert(context,
                                 content: 'Added to cart'));

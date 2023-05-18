@@ -57,7 +57,7 @@ class ProductDialog extends StatelessWidget {
                         child: Consumer<WishlistProvider>(
                           builder: (_, wishlistProvider, __) => InkWell(
                             onTap: () =>
-                                wishlistProvider.addAndRemoveItem(WishlistModel(
+                                wishlistProvider.addOrRemoveItem(WishlistModel(
                               id: product.id,
                               imageUrl: product.imageUrl,
                               name: product.name,
@@ -80,13 +80,12 @@ class ProductDialog extends StatelessWidget {
                       child: Material(
                         child: Consumer<CartProvider>(
                           builder: (_, cartProvider, __) => InkWell(
-                            onTap: () =>
-                                cartProvider.addAndRemoveItem(CartModel(
-                              id: product.id,
-                              imageUrl: product.imageUrl,
-                              name: product.name,
-                              price: product.price,
-                            )),
+                            onTap: () => cartProvider.addOrRemoveItem(CartModel(
+                                id: product.id,
+                                imageUrl: product.imageUrl,
+                                name: product.name,
+                                price: product.price,
+                                quantity: 1)),
                             child: Center(
                               child: cartProvider.isInCart(product.id)
                                   ? Icon(mRemoveCartIcon,

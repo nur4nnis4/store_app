@@ -16,7 +16,7 @@ class CartProvider with ChangeNotifier {
 
   bool isInCart(id) => _cartItems.containsKey(id);
 
-  void addAndRemoveItem(CartModel cartModel) {
+  void addOrRemoveItem(CartModel cartModel) {
     isInCart(cartModel.id)
         ? _cartItems.remove(cartModel.id)
         : _cartItems.putIfAbsent(cartModel.id, () => cartModel);
@@ -24,8 +24,19 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateCart(CartModel cartModel) {
-    _cartItems.update(cartModel.id, (cartModel) => cartModel);
+  void increaseQuantity(CartModel cartModel) {
+    _cartItems.update(
+        cartModel.id,
+        (cartModel) =>
+            CartModel.updateQuantity(cartModel, cartModel.quantity + 1));
+    notifyListeners();
+  }
+
+  void decreaseQuantity(CartModel cartModel) {
+    _cartItems.update(
+        cartModel.id,
+        (cartModel) =>
+            CartModel.updateQuantity(cartModel, cartModel.quantity - 1));
     notifyListeners();
   }
 

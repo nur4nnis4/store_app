@@ -79,11 +79,12 @@ class PopularProductCard extends StatelessWidget {
                                                       'Removed from cart'));
                                     }
                                   : () {
-                                      cartProvider.addAndRemoveItem(CartModel(
+                                      cartProvider.addOrRemoveItem(CartModel(
                                           id: popularProduct.id,
                                           imageUrl: popularProduct.imageUrl,
                                           name: popularProduct.name,
-                                          price: popularProduct.price));
+                                          price: popularProduct.price,
+                                          quantity: 1));
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                               CustomSnackbar.snackbarAlert(
@@ -105,7 +106,7 @@ class PopularProductCard extends StatelessWidget {
                                   ? Colors.redAccent
                                   : Theme.of(context).unselectedWidgetColor,
                               onPressed: () {
-                                wishlistProvider.addAndRemoveItem(WishlistModel(
+                                wishlistProvider.addOrRemoveItem(WishlistModel(
                                   id: popularProduct.id,
                                   imageUrl: popularProduct.imageUrl,
                                   name: popularProduct.name,

@@ -68,7 +68,7 @@ class FullWishlist extends StatelessWidget {
                               icon: Icons.favorite,
                               color: Colors.redAccent,
                               onPressed: () => _wishlistProvider
-                                  .addAndRemoveItem(_wishlistItem)),
+                                  .addOrRemoveItem(_wishlistItem)),
                         ],
                       ),
                     ],

@@ -97,8 +97,7 @@ class _FullCartState extends State<FullCart> {
                                 : Theme.of(context).disabledColor,
                             onPressed: _cartItem.quantity > 1
                                 ? () {
-                                    _cartItem.quantity--;
-                                    _cartProvider.updateCart(_cartItem);
+                                    _cartProvider.decreaseQuantity(_cartItem);
                                   }
                                 : () {},
                           ),
@@ -132,8 +131,7 @@ class _FullCartState extends State<FullCart> {
                             icon: mIconAdd,
                             color: Theme.of(context).primaryColor,
                             onPressed: () {
-                              _cartItem.quantity++;
-                              _cartProvider.updateCart(_cartItem);
+                              _cartProvider.increaseQuantity(_cartItem);
                             },
                           ),
                         ],
