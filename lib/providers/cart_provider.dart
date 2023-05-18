@@ -1,7 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:store_app/data/local_datasource/cart_local_datasource.dart';
 import 'package:store_app/models/cart_model.dart';
 
 class CartProvider with ChangeNotifier {
+  final CartLocalDatasource cartLocalDatasource;
+  CartProvider({required this.cartLocalDatasource});
+
   Map<String, CartModel> _cartItems = {};
 
   Map<String, CartModel> get getCartItems => _cartItems;
@@ -16,37 +20,80 @@ class CartProvider with ChangeNotifier {
 
   bool isInCart(id) => _cartItems.containsKey(id);
 
-  void addOrRemoveItem(CartModel cartModel) {
+  Future<void> getLocalCart() async {
+    final cart = await cartLocalDatasource.getCart();
+
+    cart.forEach((item) {
+      _cartItems.putIfAbsent(item.id, () => item);
+    });
+  }
+
+  void addOrRemoveItem(CartModel cartModel) async {
     isInCart(cartModel.id)
         ? _cartItems.remove(cartModel.id)
         : _cartItems.putIfAbsent(cartModel.id, () => cartModel);
 
     notifyListeners();
+
+    if (!kIsWeb) {
+      try {
+        isInCart(cartModel.id)
+            ? await cartLocalDatasource.deleteCart(cartModel.id)
+            : await cartLocalDatasource.insertCart(cartModel);
+      } catch (e) {
+        print(e.toString());
+      }
+    }
   }
 
-  void increaseQuantity(CartModel cartModel) {
-    _cartItems.update(
-        cartModel.id,
-        (cartModel) =>
-            CartModel.updateQuantity(cartModel, cartModel.quantity + 1));
+  void increaseQuantity(CartModel cartModel) async {
+    final updatedCart =
+        CartModel.updateQuantity(cartModel, cartModel.quantity + 1);
+    _cartItems.update(cartModel.id, (cartModel) => updatedCart);
     notifyListeners();
+    _callUpdateLocalCart(updatedCart);
   }
 
   void decreaseQuantity(CartModel cartModel) {
-    _cartItems.update(
-        cartModel.id,
-        (cartModel) =>
-            CartModel.updateQuantity(cartModel, cartModel.quantity - 1));
+    final updatedCart =
+        CartModel.updateQuantity(cartModel, cartModel.quantity - 1);
+    _cartItems.update(cartModel.id, (cartModel) => updatedCart);
     notifyListeners();
+    _callUpdateLocalCart(updatedCart);
   }
 
-  void removeFromCart(id) {
+  Future<void> _callUpdateLocalCart(CartModel updatedCart) async {
+    if (!kIsWeb) {
+      try {
+        await cartLocalDatasource.updateCart(updatedCart);
+      } catch (e) {
+        print(e.toString());
+      }
+    }
+  }
+
+  void removeFromCart(id) async {
     _cartItems.remove(id);
     notifyListeners();
+    if (!kIsWeb) {
+      try {
+        await cartLocalDatasource.deleteCart(id);
+      } catch (e) {
+        print(e.toString());
+      }
+    }
   }
 
-  void removeAll() {
+  void removeAll() async {
     _cartItems.clear();
     notifyListeners();
+
+    if (!kIsWeb) {
+      try {
+        await cartLocalDatasource.clearCart();
+      } catch (e) {
+        print(e.toString());
+      }
+    }
   }
 }

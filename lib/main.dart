@@ -50,8 +50,10 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiProvider(
           providers: [
-            ChangeNotifierProvider(create: (_) => new CartProvider()),
-            ChangeNotifierProvider(create: (_) => new WishlistProvider()),
+            ChangeNotifierProvider<CartProvider>(
+                create: (_) => Injector.sLocator<CartProvider>()),
+            ChangeNotifierProvider<WishlistProvider>(
+                create: (_) => Injector.sLocator<WishlistProvider>()),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,

@@ -3,7 +3,9 @@ import 'package:flutter/foundation.dart';
 
 import 'package:store_app/core/error/exceptions.dart';
 import 'package:store_app/data/local_datasource/auth_local_datasource.dart';
+import 'package:store_app/data/local_datasource/cart_local_datasource.dart';
 import 'package:store_app/data/local_datasource/user_local_datasource.dart';
+import 'package:store_app/data/local_datasource/wishlist_local_datasource.dart';
 import 'package:store_app/data/remote_datasource/auth_remote_datasource.dart';
 import 'package:store_app/utils/user_form_validator.dart';
 
@@ -14,11 +16,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRemoteDatasource authRemoteDatasource;
   final AuthLocalDatasource authLocalDatasource;
   final UserLocalDatasource userLocalDatasource;
+  final WishlistLocalDatasource wishlistLocalDatasource;
+  final CartLocalDatasource cartLocalDatasource;
   final UserFormValidator userFormValidator;
   AuthBloc({
     required this.authRemoteDatasource,
     required this.authLocalDatasource,
     required this.userLocalDatasource,
+    required this.cartLocalDatasource,
+    required this.wishlistLocalDatasource,
     required this.userFormValidator,
   }) : super(AuthUnauthenticated()) {
     on<SignInWithEmailEvent>((event, emit) async {

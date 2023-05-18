@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_app/bloc/auth_bloc/auth_bloc.dart';
 import 'package:store_app/bloc/product_bloc/fetch_products_bloc/fetch_products_bloc.dart';
 import 'package:store_app/bloc/user_bloc/user_bloc.dart';
+import 'package:store_app/providers/cart_provider.dart';
+import 'package:store_app/providers/wishlist_provider.dart';
 import 'package:store_app/screens/bottom_bar.dart';
 import 'package:store_app/screens/upload_product.dart';
 
@@ -18,6 +20,8 @@ class MainScreen extends StatelessWidget {
         if (state is AuthAuthenticated) {
           context.read<UserBloc>().add(FetchUserEvent(
               userId: state.userId, accessToken: state.authToken));
+          context.read<CartProvider>().getCartItems;
+          context.read<WishlistProvider>().getwishListItems;
         }
       },
       child: PageView(

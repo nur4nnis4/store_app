@@ -12,10 +12,14 @@ import 'package:store_app/bloc/product_bloc/upload_product_bloc/upload_product_b
 import 'package:store_app/bloc/user_bloc/user_bloc.dart';
 import 'package:store_app/core/network/network_info.dart';
 import 'package:store_app/data/local_datasource/auth_local_datasource.dart';
+import 'package:store_app/data/local_datasource/cart_local_datasource.dart';
 import 'package:store_app/data/local_datasource/user_local_datasource.dart';
+import 'package:store_app/data/local_datasource/wishlist_local_datasource.dart';
 import 'package:store_app/data/remote_datasource/auth_remote_datasource.dart';
 import 'package:store_app/data/remote_datasource/product_remote_datasource.dart';
 import 'package:store_app/data/remote_datasource/user_remote_datasource.dart';
+import 'package:store_app/providers/cart_provider.dart';
+import 'package:store_app/providers/wishlist_provider.dart';
 import 'package:store_app/utils/user_form_validator.dart';
 
 final sLocator = GetIt.instance;
@@ -29,6 +33,8 @@ void init() {
       authRemoteDatasource: sLocator(),
       authLocalDatasource: sLocator(),
       userLocalDatasource: sLocator(),
+      cartLocalDatasource: sLocator(),
+      wishlistLocalDatasource: sLocator(),
       userFormValidator: sLocator()));
 
   sLocator.registerFactory(() => UserBloc(
@@ -49,6 +55,11 @@ void init() {
         productRemoteDatasource: sLocator(),
       ));
 
+  //Providers
+  sLocator.registerFactory(() => CartProvider(cartLocalDatasource: sLocator()));
+  sLocator.registerFactory(
+      () => WishlistProvider(wishlistLocalDatasource: sLocator()));
+
   //Utils
 
   sLocator.registerLazySingleton(() => UserFormValidator());
@@ -56,13 +67,16 @@ void init() {
   // Datasources
   sLocator.registerLazySingleton(
       () => AuthRemoteDatasource(dio: sLocator(), googleSignIn: sLocator()));
-  sLocator
-      .registerLazySingleton(() => AuthLocalDatasource(storage: sLocator()));
 
   sLocator
       .registerLazySingleton(() => ProductRemoteDatasource(dio: sLocator()));
   sLocator.registerLazySingleton(() => UserRemoteDatasource(dio: sLocator()));
+
+  sLocator.registerLazySingleton(() => CartLocalDatasource.instance);
+  sLocator.registerLazySingleton(() => WishlistLocalDatasource.instance);
   sLocator.registerLazySingleton(() => UserLocalDatasource.instance);
+  sLocator
+      .registerLazySingleton(() => AuthLocalDatasource(storage: sLocator()));
 
   // Dependecies
 
