@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:store_app/core/config/apiconfig_example.dart';
+import 'package:store_app/core/config/apiconfig.dart';
 import 'package:store_app/core/error/exceptions.dart';
 import 'package:store_app/models/product_model.dart';
 
@@ -75,7 +75,7 @@ class ProductRemoteDatasource {
 
   Future<List<ProductModel>> fetchPopularProducts() async {
     try {
-      final Response response = await dio.get('$BASE_URL/products-popular');
+      final Response response = await dio.get('$BASE_URL/products/popular');
       final Map<String, dynamic> array = jsonDecode(response.toString());
       final List<dynamic> list = array['data'];
       return list.map((element) => ProductModel.fromJson(element)).toList();

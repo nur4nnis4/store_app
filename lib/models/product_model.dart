@@ -3,27 +3,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProductModel with ChangeNotifier {
-  String id;
-  String name;
-  double price;
-  String brand;
-  String description;
-  String imageUrl;
-  String category;
-  int stock;
-  int sales;
-  bool isPopular;
-  SellerModel? seller;
+  final String id;
+  final String name;
+  final double price;
+  final String brand;
+  final String description;
+  final String imageUrl;
+  final String category;
+  final int stock;
+  final int sales;
+  final bool isPopular;
+  final SellerModel? seller;
 
   ProductModel(
       {this.id = '',
-      this.name = '',
-      this.price = 0,
-      this.brand = '',
-      this.description = '',
-      this.imageUrl = '',
-      this.category = '',
-      this.stock = 0,
+      required this.name,
+      required this.price,
+      required this.brand,
+      required this.description,
+      required this.imageUrl,
+      required this.category,
+      required this.stock,
       this.sales = 0,
       this.isPopular = false,
       this.seller});

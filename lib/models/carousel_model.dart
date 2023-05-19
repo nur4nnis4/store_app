@@ -1,9 +1,9 @@
 class CarouselModel {
   String image;
 
-  CarouselModel({this.image = ''});
+  CarouselModel({required this.image});
 
-  List<CarouselModel> getCarouselImages() {
+  static List<CarouselModel> getCarouselImages() {
     return [
       CarouselModel(image: 'assets/images/carousels/carousel_1.png'),
       CarouselModel(image: 'assets/images/carousels/carousel_2.png'),

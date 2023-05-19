@@ -13,12 +13,11 @@ import 'package:store_app/widgets/popular_product_card.dart';
 import 'package:store_app/widgets/recommendation.dart';
 
 class HomeScreen extends StatelessWidget {
-  final List<CarouselModel> carouselImages =
-      CarouselModel().getCarouselImages();
+  final List<CarouselModel> carouselImages = CarouselModel.getCarouselImages();
 
-  final List<CategoryModel> categories = CategoryModel().getCategories();
+  final List<CategoryModel> categories = CategoryModel.getCategories();
 
-  final List<BrandModel> popularBrands = BrandModel().getBrands();
+  final List<BrandModel> popularBrands = BrandModel.getBrands();
 
   @override
   Widget build(BuildContext context) {

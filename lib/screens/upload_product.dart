@@ -20,14 +20,20 @@ class UploadProductScreen extends StatefulWidget {
 }
 
 class _UploadProductScreenState extends State<UploadProductScreen> {
-  final _categories = CategoryModel().getCategories();
-  FocusNode _brandFocusNode = new FocusNode();
-  FocusNode _priceFocusNode = new FocusNode();
-  FocusNode _quantityFocusNode = new FocusNode();
-  FocusNode _categoryFocusNode = new FocusNode();
-  FocusNode _descriptionFocusNode = new FocusNode();
-  ProductModel _productModel = new ProductModel();
-  final _formKey = new GlobalKey<FormState>();
+  final _categories = CategoryModel.getCategories();
+  late String _pickedCategory;
+  late TextEditingController _nameController = TextEditingController();
+  late TextEditingController _brandController = TextEditingController();
+  late TextEditingController _priceController = TextEditingController();
+  late TextEditingController _stockController = TextEditingController();
+  late TextEditingController _descriptionController = TextEditingController();
+
+  FocusNode _brandFocusNode = FocusNode();
+  FocusNode _priceFocusNode = FocusNode();
+  FocusNode _quantityFocusNode = FocusNode();
+  FocusNode _categoryFocusNode = FocusNode();
+  FocusNode _descriptionFocusNode = FocusNode();
+  final _formKey = GlobalKey<FormState>();
   String _pickedImagePath = '';
 
   bool _isLoading = false;
@@ -35,7 +41,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
   @override
   void initState() {
     super.initState();
-    _productModel.category = _categories[0].name;
+    _pickedCategory = _categories[0].name;
   }
 
   @override
@@ -52,8 +58,18 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
     final isValid = _formKey.currentState!.validate();
     if (isValid) {
       _formKey.currentState!.save();
-      Provider.of<UploadProductBloc>(context, listen: false).add(
-          UploadProductEvent(product: _productModel, accessToken: accessToken));
+
+      final product = ProductModel(
+        name: _nameController.text.trim(),
+        price: double.parse(_priceController.text.trim()),
+        brand: _brandController.text.trim(),
+        description: _descriptionController.text.trim(),
+        imageUrl: _pickedImagePath,
+        category: _pickedCategory,
+        stock: int.parse(_stockController.text.trim()),
+      );
+      Provider.of<UploadProductBloc>(context, listen: false)
+          .add(UploadProductEvent(product: product, accessToken: accessToken));
     }
   }
 
@@ -102,7 +118,6 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                                     await MyAlertDialog.imagePicker(context);
                                 setState(
                                     () => _pickedImagePath = pickedImagePath);
-                                _productModel.imageUrl = _pickedImagePath;
                               },
                               child: Stack(
                                 alignment: Alignment.center,
@@ -125,6 +140,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                           // Name Section
                           _sectionTitle('Name'),
                           TextFormField(
+                            controller: _nameController,
                             textCapitalization: TextCapitalization.words,
                             textInputAction: TextInputAction.next,
                             validator: (value) =>
@@ -136,12 +152,12 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                             ),
                             onEditingComplete: () => FocusScope.of(context)
                                 .requestFocus(_brandFocusNode),
-                            onSaved: (value) => _productModel.name = value!,
                           ),
 
                           // Brand Section
                           _sectionTitle('Brand'),
                           TextFormField(
+                            controller: _brandController,
                             textCapitalization: TextCapitalization.words,
                             textInputAction: TextInputAction.next,
                             focusNode: _brandFocusNode,
@@ -154,12 +170,12 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                             ),
                             onEditingComplete: () => FocusScope.of(context)
                                 .requestFocus(_priceFocusNode),
-                            onSaved: (value) => _productModel.brand = value!,
                           ),
 
                           // Price Section
                           _sectionTitle('Price'),
                           TextFormField(
+                            controller: _priceController,
                             keyboardType: TextInputType.number,
                             textInputAction: TextInputAction.next,
                             focusNode: _priceFocusNode,
@@ -175,13 +191,12 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                             ),
                             onEditingComplete: () => FocusScope.of(context)
                                 .requestFocus(_quantityFocusNode),
-                            onSaved: (value) =>
-                                _productModel.price = double.parse(value!),
                           ),
 
                           // Quantity Section
-                          _sectionTitle('Quantity'),
+                          _sectionTitle('Stock'),
                           TextFormField(
+                            controller: _stockController,
                             keyboardType: TextInputType.number,
                             textInputAction: TextInputAction.next,
                             focusNode: _quantityFocusNode,
@@ -194,8 +209,6 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                             ),
                             onEditingComplete: () => FocusScope.of(context)
                                 .requestFocus(_categoryFocusNode),
-                            onSaved: (value) =>
-                                _productModel.stock = int.parse(value!),
                           ),
 
                           // Category section
@@ -214,10 +227,10 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                                   ),
                                 )
                                 .toList(),
-                            value: _productModel.category,
+                            value: _pickedCategory,
                             onChanged: (String? value) {
                               setState(() {
-                                _productModel.category = value.toString();
+                                _pickedCategory = value.toString();
                               });
                             },
                             decoration: InputDecoration(
@@ -230,6 +243,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                           _sectionTitle('Description'),
                           SizedBox(height: 10),
                           TextFormField(
+                            controller: _descriptionController,
                             keyboardType: TextInputType.multiline,
                             maxLines: 10,
                             textCapitalization: TextCapitalization.sentences,
@@ -241,8 +255,6 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                               enabledBorder:
                                   MyBorder.outlineInputBorder(context),
                             ),
-                            onSaved: (value) =>
-                                _productModel.description = value!,
                           ),
                         ],
                       ),

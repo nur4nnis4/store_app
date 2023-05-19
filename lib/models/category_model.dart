@@ -1,10 +1,10 @@
 class CategoryModel {
-  String name;
-  String image;
+  final String name;
+  final String image;
 
-  CategoryModel({this.name = '', this.image = ''});
+  CategoryModel({required this.name, required this.image});
 
-  List<CategoryModel> getCategories() {
+  static List<CategoryModel> getCategories() {
     return [
       CategoryModel(name: 'Phone', image: 'assets/images/categories/phone.png'),
       CategoryModel(name: 'Shoes', image: 'assets/images/categories/shoes.png'),

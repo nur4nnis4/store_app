@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:store_app/core/config/apiconfig_example.dart';
+import 'package:store_app/core/config/apiconfig.dart';
 import 'package:store_app/core/error/exceptions.dart';
 import 'package:store_app/models/user_model.dart';
 

@@ -1,12 +1,12 @@
-import 'package:store_app/core/config/apiconfig_example.dart';
+import 'package:store_app/core/config/apiconfig.dart';
 
 class BrandModel {
-  String name;
-  String imageUrl;
+  final String name;
+  final String imageUrl;
 
-  BrandModel({this.name = '', this.imageUrl = ''});
+  BrandModel({required this.name, required this.imageUrl});
 
-  List<BrandModel> getBrands() => [
+  static List<BrandModel> getBrands() => [
         BrandModel(
           name: 'CocaCola',
           imageUrl: '$STORAGE_URL/brands/coca_cola.jpg',
