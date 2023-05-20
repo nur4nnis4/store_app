@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:store_app/core/error/exceptions.dart';
 import 'package:store_app/data/local_datasource/wishlist_local_datasource.dart';
 import 'package:store_app/models/wishlist_model.dart';
 
@@ -11,28 +12,32 @@ class WishlistProvider with ChangeNotifier {
   Map<String, WishlistModel> get getwishListItems => _wishListItems;
 
   Future<void> getLocalWishlist() async {
-    final wishlist = await wishlistLocalDatasource.getWishlist();
+    try {
+      final wishlist = await wishlistLocalDatasource.getWishlist();
 
-    wishlist.forEach((item) {
-      _wishListItems.putIfAbsent(item.id, () => item);
-    });
+      wishlist.forEach((item) {
+        _wishListItems.putIfAbsent(item.id, () => item);
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+    notifyListeners();
   }
 
   void addOrRemoveItem(WishlistModel wishlistModel) async {
-    isInWishList(wishlistModel.id)
-        ? removeWishlistItem(wishlistModel.id)
-        : _wishListItems.putIfAbsent(wishlistModel.id, () => wishlistModel);
-    notifyListeners();
-
     if (!kIsWeb) {
       try {
         isInWishList(wishlistModel.id)
             ? await wishlistLocalDatasource.deleteWishlist(wishlistModel.id)
             : await wishlistLocalDatasource.insertWishlist(wishlistModel);
-      } catch (e) {
-        print(e.toString());
+      } on CacheException catch (e) {
+        print(e.message);
       }
     }
+    isInWishList(wishlistModel.id)
+        ? removeWishlistItem(wishlistModel.id)
+        : _wishListItems.putIfAbsent(wishlistModel.id, () => wishlistModel);
+    notifyListeners();
   }
 
   void removeWishlistItem(productId) async {
@@ -43,8 +48,8 @@ class WishlistProvider with ChangeNotifier {
       if (!kIsWeb) {
         wishlistLocalDatasource.deleteWishlist(productId);
       }
-    } catch (e) {
-      print(e.toString());
+    } on CacheException catch (e) {
+      print(e.message);
     }
   }
 
@@ -56,8 +61,8 @@ class WishlistProvider with ChangeNotifier {
       if (!kIsWeb) {
         wishlistLocalDatasource.clearWishlist();
       }
-    } catch (e) {
-      print(e.toString());
+    } on CacheException catch (e) {
+      print(e.message);
     }
   }
 

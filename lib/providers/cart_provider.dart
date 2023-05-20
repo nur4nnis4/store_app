@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:store_app/core/error/exceptions.dart';
 import 'package:store_app/data/local_datasource/cart_local_datasource.dart';
 import 'package:store_app/models/cart_model.dart';
 
@@ -26,24 +27,25 @@ class CartProvider with ChangeNotifier {
     cart.forEach((item) {
       _cartItems.putIfAbsent(item.id, () => item);
     });
+    notifyListeners();
   }
 
   void addOrRemoveItem(CartModel cartModel) async {
-    isInCart(cartModel.id)
-        ? _cartItems.remove(cartModel.id)
-        : _cartItems.putIfAbsent(cartModel.id, () => cartModel);
-
-    notifyListeners();
-
     if (!kIsWeb) {
       try {
         isInCart(cartModel.id)
             ? await cartLocalDatasource.deleteCart(cartModel.id)
             : await cartLocalDatasource.insertCart(cartModel);
-      } catch (e) {
-        print(e.toString());
+      } on CacheException catch (e) {
+        print(e.message);
       }
     }
+
+    isInCart(cartModel.id)
+        ? _cartItems.remove(cartModel.id)
+        : _cartItems.putIfAbsent(cartModel.id, () => cartModel);
+
+    notifyListeners();
   }
 
   void increaseQuantity(CartModel cartModel) async {
@@ -66,7 +68,7 @@ class CartProvider with ChangeNotifier {
     if (!kIsWeb) {
       try {
         await cartLocalDatasource.updateCart(updatedCart);
-      } catch (e) {
+      } on CacheException catch (e) {
         print(e.toString());
       }
     }
@@ -78,8 +80,8 @@ class CartProvider with ChangeNotifier {
     if (!kIsWeb) {
       try {
         await cartLocalDatasource.deleteCart(id);
-      } catch (e) {
-        print(e.toString());
+      } on CacheException catch (e) {
+        print(e.message);
       }
     }
   }
@@ -91,8 +93,8 @@ class CartProvider with ChangeNotifier {
     if (!kIsWeb) {
       try {
         await cartLocalDatasource.clearCart();
-      } catch (e) {
-        print(e.toString());
+      } on CacheException catch (e) {
+        print(e.message);
       }
     }
   }

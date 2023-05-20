@@ -12,7 +12,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PageController controller = PageController(initialPage: 1);
-    context.read<FetchProductsBloc>().add(FetchProductsEvent());
+    context.read<FetchProductsBloc>().add(FirstLoadProductsEvent());
     context.read<AuthBloc>().add(GetAuthStatusEvent());
 
     return BlocListener<AuthBloc, AuthState>(
@@ -20,8 +20,8 @@ class MainScreen extends StatelessWidget {
         if (state is AuthAuthenticated) {
           context.read<UserBloc>().add(FetchUserEvent(
               userId: state.userId, accessToken: state.authToken));
-          context.read<CartProvider>().getCartItems;
-          context.read<WishlistProvider>().getwishListItems;
+          context.read<CartProvider>().getLocalCart();
+          context.read<WishlistProvider>().getLocalWishlist();
         }
       },
       child: PageView(

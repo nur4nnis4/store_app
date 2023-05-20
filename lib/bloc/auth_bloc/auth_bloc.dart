@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:store_app/core/error/exceptions.dart';
 import 'package:store_app/data/local_datasource/auth_local_datasource.dart';
 import 'package:store_app/data/local_datasource/cart_local_datasource.dart';
+import 'package:store_app/data/local_datasource/sqflite_handler.dart';
 import 'package:store_app/data/local_datasource/user_local_datasource.dart';
 import 'package:store_app/data/local_datasource/wishlist_local_datasource.dart';
 import 'package:store_app/data/remote_datasource/auth_remote_datasource.dart';
@@ -19,6 +20,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final WishlistLocalDatasource wishlistLocalDatasource;
   final CartLocalDatasource cartLocalDatasource;
   final UserFormValidator userFormValidator;
+  final SQFLiteHandler sqfLiteHandler;
+
   AuthBloc({
     required this.authRemoteDatasource,
     required this.authLocalDatasource,
@@ -26,6 +29,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.cartLocalDatasource,
     required this.wishlistLocalDatasource,
     required this.userFormValidator,
+    required this.sqfLiteHandler,
   }) : super(AuthUnauthenticated()) {
     on<SignInWithEmailEvent>((event, emit) async {
       emit(AuthLoading(message: 'Signing In'));
@@ -94,13 +98,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         try {
           await authRemoteDatasource.signOut(current.authToken);
           await authLocalDatasource.deleteTokenandUserId();
+
           if (!kIsWeb) {
-            await userLocalDatasource.deleteUser();
+            await sqfLiteHandler.deleteStoreAppDatabase();
           }
           emit(AuthUnauthenticated());
         } on ServerException catch (e) {
           emit(AuthError(errorMessage: e.message));
         } catch (e) {
+          print(e.toString());
           emit(AuthError(errorMessage: e.toString()));
         }
       }

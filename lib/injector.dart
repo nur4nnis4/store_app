@@ -13,6 +13,7 @@ import 'package:store_app/bloc/user_bloc/user_bloc.dart';
 import 'package:store_app/core/network/network_info.dart';
 import 'package:store_app/data/local_datasource/auth_local_datasource.dart';
 import 'package:store_app/data/local_datasource/cart_local_datasource.dart';
+import 'package:store_app/data/local_datasource/sqflite_handler.dart';
 import 'package:store_app/data/local_datasource/user_local_datasource.dart';
 import 'package:store_app/data/local_datasource/wishlist_local_datasource.dart';
 import 'package:store_app/data/remote_datasource/auth_remote_datasource.dart';
@@ -29,13 +30,16 @@ void init() {
   sLocator.registerLazySingleton(() => NetworkInfo(connectivity: sLocator()));
 
   // Blocs
-  sLocator.registerFactory(() => AuthBloc(
-      authRemoteDatasource: sLocator(),
-      authLocalDatasource: sLocator(),
-      userLocalDatasource: sLocator(),
-      cartLocalDatasource: sLocator(),
-      wishlistLocalDatasource: sLocator(),
-      userFormValidator: sLocator()));
+  sLocator.registerFactory(
+    () => AuthBloc(
+        authRemoteDatasource: sLocator(),
+        authLocalDatasource: sLocator(),
+        userLocalDatasource: sLocator(),
+        cartLocalDatasource: sLocator(),
+        wishlistLocalDatasource: sLocator(),
+        userFormValidator: sLocator(),
+        sqfLiteHandler: sLocator()),
+  );
 
   sLocator.registerFactory(() => UserBloc(
         userRemoteDatasource: sLocator(),
@@ -77,6 +81,7 @@ void init() {
   sLocator.registerLazySingleton(() => UserLocalDatasource.instance);
   sLocator
       .registerLazySingleton(() => AuthLocalDatasource(storage: sLocator()));
+  sLocator.registerLazySingleton(() => SQFLiteHandler());
 
   // Dependecies
 
