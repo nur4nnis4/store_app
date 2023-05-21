@@ -83,7 +83,7 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                 CustomSnackbar.loadingSnackbar(context, text: 'Uploading...'));
           } else if (state is UploadProductSuccess) {
             // Refresh products
-            context.read<FetchProductsBloc>().add(FetchProductsEvent());
+            context.read<FetchProductsBloc>().add(FirstLoadProductsEvent());
 
             // Show success snackbar
             ScaffoldMessenger.of(context).showSnackBar(

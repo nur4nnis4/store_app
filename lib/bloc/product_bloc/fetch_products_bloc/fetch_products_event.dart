@@ -1,4 +1,8 @@
 part of 'fetch_products_bloc.dart';
 
 @immutable
-class FetchProductsEvent {}
+abstract class FetchProductsEvent {}
+
+class FirstLoadProductsEvent extends FetchProductsEvent {}
+
+class LoadMoreProductsEvent extends FetchProductsEvent {}

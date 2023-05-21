@@ -21,17 +21,25 @@ class ProductRemoteDatasource {
       final Map<String, dynamic> map = jsonDecode(response.toString());
       final Map<String, dynamic> productMap = map['data'];
       return ProductModel.fromJson(productMap);
+    } on DioError catch (e) {
+      final error = jsonDecode(e.response.toString());
+      throw ServerException(message: error['message']);
     } catch (e) {
       throw ServerException(message: e.toString());
     }
   }
 
-  Future<List<ProductModel>> fetchProducts() async {
+  Future<List<ProductModel>> fetchProducts(
+      {required int limit, int? page, String? orderBy, String? sort}) async {
     try {
-      final Response response = await dio.get('$BASE_URL/products');
+      final Response response = await dio.get(
+          '$BASE_URL/products?limit=$limit&page=${page ?? 1}&orderBy=${orderBy ?? 'created_at'}&sort=${sort ?? 'asc'}');
       final Map<String, dynamic> array = jsonDecode(response.toString());
       final List<dynamic> list = array['data'];
       return list.map((element) => ProductModel.fromJson(element)).toList();
+    } on DioError catch (e) {
+      final error = jsonDecode(e.response.toString());
+      throw ServerException(message: error['message']);
     } catch (e) {
       throw ServerException(message: e.toString());
     }
@@ -44,6 +52,9 @@ class ProductRemoteDatasource {
       final Map<String, dynamic> array = jsonDecode(response.toString());
       final List<dynamic> list = array['data'];
       return list.map((element) => ProductModel.fromJson(element)).toList();
+    } on DioError catch (e) {
+      final error = jsonDecode(e.response.toString());
+      throw ServerException(message: error['message']);
     } catch (e) {
       throw ServerException(message: e.toString());
     }
@@ -56,6 +67,9 @@ class ProductRemoteDatasource {
       final Map<String, dynamic> array = jsonDecode(response.toString());
       final List<dynamic> list = array['data'];
       return list.map((element) => ProductModel.fromJson(element)).toList();
+    } on DioError catch (e) {
+      final error = jsonDecode(e.response.toString());
+      throw ServerException(message: error['message']);
     } catch (e) {
       throw ServerException(message: e.toString());
     }
@@ -68,6 +82,9 @@ class ProductRemoteDatasource {
       final Map<String, dynamic> map = jsonDecode(response.toString());
       final Map<String, dynamic> productMap = map['data'];
       return ProductModel.fromJson(productMap);
+    } on DioError catch (e) {
+      final error = jsonDecode(e.response.toString());
+      throw ServerException(message: error['message']);
     } catch (e) {
       throw ServerException(message: e.toString());
     }
@@ -79,6 +96,9 @@ class ProductRemoteDatasource {
       final Map<String, dynamic> array = jsonDecode(response.toString());
       final List<dynamic> list = array['data'];
       return list.map((element) => ProductModel.fromJson(element)).toList();
+    } on DioError catch (e) {
+      final error = jsonDecode(e.response.toString());
+      throw ServerException(message: error['message']);
     } catch (e) {
       throw ServerException(message: e.toString());
     }
