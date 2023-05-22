@@ -121,12 +121,14 @@ class HomeScreen extends StatelessWidget {
                         childAspectRatio: (MediaQuery.of(context).size.width) /
                             (MediaQuery.of(context).size.width + 130),
                         mainAxisSpacing: 8,
+                        crossAxisSpacing: 8,
                         shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.all(8),
                         children: List.generate(
                           state.products.length,
-                          (index) => Center(
-                              child: Recommendation(
-                                  product: state.products[index])),
+                          (index) =>
+                              Recommendation(product: state.products[index]),
                         ),
                       );
                     } else {

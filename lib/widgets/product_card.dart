@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart' as badges;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:store_app/core/routes/route_name.dart';
 import 'package:store_app/models/product_model.dart';
@@ -28,14 +29,11 @@ class ProductCard extends StatelessWidget {
               children: [
                 Hero(
                   tag: product.id,
-                  child: Container(
+                  child: CachedNetworkImage(
+                    imageUrl: product.imageUrl,
                     height: _productImageSize,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        image: DecorationImage(
-                            image: NetworkImage(product.imageUrl),
-                            onError: (object, stacktrace) => {},
-                            fit: BoxFit.contain)),
+                    errorWidget: (context, url, error) =>
+                        Center(child: Icon(Icons.error)),
                   ),
                 ),
                 badges.Badge(

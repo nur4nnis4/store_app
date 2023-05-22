@@ -16,7 +16,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
   void initState() {
     super.initState();
     _controller.addListener(() {
-      if (_controller.position.maxScrollExtent == _controller.offset) {
+      if (_controller.position.maxScrollExtent == _controller.position.pixels) {
         BlocProvider.of<FetchProductsBloc>(context)
             .add(LoadMoreProductsEvent());
       }

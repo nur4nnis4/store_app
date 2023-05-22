@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:store_app/core/routes/route_name.dart';
 import 'package:store_app/models/product_model.dart';
@@ -23,13 +24,11 @@ class Recommendation extends StatelessWidget {
             color: Theme.of(context).cardColor,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Container(
+              CachedNetworkImage(
+                imageUrl: product.imageUrl,
                 height: _productImageSize,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    image: DecorationImage(
-                        image: NetworkImage(product.imageUrl),
-                        fit: BoxFit.contain)),
+                errorWidget: (context, url, error) =>
+                    Center(child: Icon(Icons.error)),
               ),
               Container(
                 margin: EdgeInsets.all(6),

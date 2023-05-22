@@ -28,10 +28,10 @@ class FetchProductsBloc extends Bloc<FetchProductsEvent, FetchProductsState> {
       }
     });
     on<LoadMoreProductsEvent>((event, emit) async {
-      try {
-        if (state is FetchProductsLoaded) {
-          final currentState = state as FetchProductsLoaded;
-          if (currentState.hasMoreProducts) {
+      if (state is FetchProductsLoaded) {
+        final currentState = state as FetchProductsLoaded;
+        if (currentState.hasMoreProducts) {
+          try {
             final currentPage = currentState.productsPage + 1;
 
             final newProducts = await productRemoteDatasource.fetchProducts(
@@ -41,12 +41,12 @@ class FetchProductsBloc extends Bloc<FetchProductsEvent, FetchProductsState> {
                 popularProducts: currentState.popularProducts,
                 productsPage: currentPage,
                 hasMoreProducts: newProducts.length == _productsLimit));
+          } on ServerException catch (e) {
+            emit(FetchProductsError(message: e.message));
+          } catch (e) {
+            emit(FetchProductsError(message: e.toString()));
           }
         }
-      } on ServerException catch (e) {
-        emit(FetchProductsError(message: e.message));
-      } catch (e) {
-        emit(FetchProductsError(message: e.toString()));
       }
     });
   }
