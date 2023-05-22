@@ -33,12 +33,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Feeds',
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-          ),
-        ),
+        title: Text('Feeds'),
         actions: [MyBadge.cart(context)],
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,

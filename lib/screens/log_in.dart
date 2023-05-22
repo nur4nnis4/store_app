@@ -53,9 +53,10 @@ class _LogInScreenState extends State<LogInScreen> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        body: Container(
-          margin: EdgeInsets.all(20),
-          child: SingleChildScrollView(
+        appBar: AppBar(),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: Column(
               children: [
                 SizedBox(height: MediaQuery.of(context).size.height * 0.1),

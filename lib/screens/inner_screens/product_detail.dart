@@ -30,10 +30,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             expandedHeight: MediaQuery.of(context).size.width,
             pinned: true,
             elevation: 0,
-            backgroundColor: Theme.of(context).cardColor,
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
             flexibleSpace: FlexibleSpaceBar(
                 background: Container(
-              color: Colors.white,
               child: Hero(
                 tag: widget.product.id,
                 child: Image.network(

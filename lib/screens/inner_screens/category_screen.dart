@@ -12,12 +12,7 @@ class CategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          productCategory,
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-          ),
-        ),
+        title: Text(productCategory),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
       ),

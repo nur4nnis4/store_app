@@ -51,6 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
+          appBar: AppBar(),
           body: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.fromLTRB(

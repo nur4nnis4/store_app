@@ -17,6 +17,7 @@ class Styles {
       primary: _primaryColor,
       secondary: _primaryColor,
       tertiary: Colors.grey[700],
+      primaryContainer: Color.fromARGB(255, 226, 226, 226),
     ),
     primaryIconTheme: IconThemeData(color: _primaryColor),
     scaffoldBackgroundColor: Colors.grey[50],
@@ -49,7 +50,13 @@ class Styles {
       caption: TextStyle(fontSize: 12, color: Colors.grey[600]),
     ),
     appBarTheme: AppBarTheme(
-        elevation: 0.0, iconTheme: IconThemeData(color: _primaryColor)),
+      elevation: 0.0,
+      iconTheme: IconThemeData(color: _primaryColor),
+      titleTextStyle: TextStyle(
+        color: _primaryColor,
+        fontSize: 18,
+      ),
+    ),
     iconTheme: IconThemeData(color: Colors.grey[700]),
   );
 
@@ -59,6 +66,7 @@ class Styles {
     colorScheme: ColorScheme.dark(
       secondary: _primaryColor,
       tertiary: Colors.grey[600],
+      primaryContainer: Color.fromARGB(255, 48, 48, 48),
     ),
     primaryTextTheme: TextTheme(
         headline6: TextStyle(
@@ -96,7 +104,14 @@ class Styles {
           TextStyle(fontSize: 12.0, color: Colors.grey[500], letterSpacing: 1),
       caption: TextStyle(fontSize: 12, color: Colors.grey[400]),
     ),
-    appBarTheme: AppBarTheme(elevation: 0.0),
+    appBarTheme: AppBarTheme(
+      elevation: 0.0,
+      iconTheme: IconThemeData(color: _primaryColor),
+      titleTextStyle: TextStyle(
+        color: _primaryColor,
+        fontSize: 18,
+      ),
+    ),
     iconTheme: IconThemeData(color: Colors.grey[300]),
   );
 }
